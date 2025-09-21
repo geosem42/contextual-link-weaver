@@ -13,7 +13,7 @@
 
 ## Installation
 
-1.  Download the latest release from the [Releases](https://github.com/geosem42/contextual-link-weaver) page.
+1.  Download the latest release from the [Releases](https://github.com/geosem42/contextual-link-weaver/releases) page.
 2.  In your WordPress admin, go to **Plugins > Add New > Upload Plugin**.
 3.  Upload the `.zip` file and activate the plugin.
 4.  Navigate to **Settings > Link Weaver** and enter your Google Gemini API key.
