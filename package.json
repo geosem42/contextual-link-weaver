@@ -1,7 +1,7 @@
 {
   "name": "contextual-link-weaver",
-  "version": "1.0.0",
-  "description": "Uses the Gemini AI to provide intelligent, context-aware internal linking suggestions.",
+  "version": "2.0.0",
+  "description": "Uses Gemini AI and semantic embeddings to provide intelligent, context-aware internal linking suggestions.",
   "main": "build/index.js",
   "scripts": {
     "build": "wp-scripts build",
@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "George Semaan",
-  "license": "ISC",
+  "license": "GPL-2.0-or-later",
   "devDependencies": {
     "@wordpress/scripts": "^30.24.0"
   }

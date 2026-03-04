@@ -1,29 +1,38 @@
-# Contextual Link Weaver for WordPress
+# Contextual Link Weaver
 
-**Contextual Link Weaver** is an intelligent internal linking assistant that uses the Gemini AI (`gemini-2.5-flash`) to provide context-aware link suggestions directly in the WordPress editor. It's designed to streamline your SEO workflow and help you build a powerful internal link graph with minimal effort.
+A WordPress plugin that uses Gemini AI and semantic embeddings to provide intelligent, context-aware internal linking suggestions in the Gutenberg editor.
 
-![Plugin Screenshot](https://i.imgur.com/RqZWouw.png)
+## How It Works
 
-## Features
+1. **Index your posts** — The plugin generates a semantic embedding (via Gemini's `gemini-embedding-001` model) for each published post and stores it in a custom database table. This happens automatically when posts are published/updated, or you can bulk-index from the settings page.
 
-- **AI-Powered Suggestions:** Leverages the Gemini AI (`gemini-2.5-flash`) to understand the context of your content and provide highly relevant link suggestions.
-- **Gutenberg Integration:** A clean, intuitive sidebar panel right where you need it in the post editor.
-- **One-Click Insertion:** Insert links with a single click, and the plugin scrolls you to the newly created link.
-- **Prompt Engineering:** Fine-tune the AI's behavior with a detailed prompt to match your site's specific SEO strategy.
+2. **Find related posts** — When editing a post, click "Find Related Posts" in the Link Weaver sidebar. The plugin embeds your draft content and uses cosine similarity to find the most semantically related posts — no AI call needed for this step.
 
-## Installation
+3. **Get anchor text suggestions** — Only the top 15 most similar posts are sent to Gemini (`gemini-3-flash-preview`) along with your draft. The AI selects the best anchor text phrases and matches them to related posts.
 
-1.  Download the latest release from the [Releases](https://github.com/geosem42/contextual-link-weaver/releases) page.
-2.  In your WordPress admin, go to **Plugins > Add New > Upload Plugin**.
-3.  Upload the `.zip` file and activate the plugin.
-4.  Navigate to **Settings > Link Weaver** and enter your Google Gemini API key.
-5.  Open any post or page to start using the Link Weaver sidebar.
+4. **Insert links** — Click "Insert Link" to add the link directly into your editor at the suggested anchor text location.
+
+## Setup
+
+1. Install and activate the plugin.
+2. Go to **Settings > Link Weaver** and enter your [Google Gemini API key](https://aistudio.google.com/apikey).
+3. Click **Index All Posts** to generate embeddings for your existing published posts.
+4. Open any post in the Gutenberg editor and use the Link Weaver sidebar.
+
+## Requirements
+
+- WordPress 6.8+ (Gutenberg block editor)
+- PHP 8.2+
+- A Google Gemini API key
 
 ## Development
 
-This plugin uses modern JavaScript tooling. To work on the source files:
+```bash
+npm install
+npm start    # Development mode with watch
+npm run build  # Production build
+```
 
-1.  Clone the repository.
-2.  Navigate to the plugin directory: `cd contextual-link-weaver`
-3.  Install dependencies: `npm install`
-4.  Run the build process for development: `npm start`
+## License
+
+GPL v2 or later.
