@@ -54,7 +54,7 @@ class CLW_Rest_API {
 		$post_id = $request->get_param( 'post_id' );
 
 		if ( empty( trim( $content ) ) ) {
-			return new WP_REST_Response( array( 'error' => 'Content is empty.' ), 400 );
+			return new WP_REST_Response( array( 'error' => __( 'Content is empty.', 'contextual-link-weaver' ) ), 400 );
 		}
 
 		$suggestions = CLW_Suggestions::get_suggestions( $content, $post_id );

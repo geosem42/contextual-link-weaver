@@ -32,14 +32,14 @@ class CLW_Suggestions {
 		$similar_posts = CLW_Embeddings::find_similar_posts( $draft_embedding, $current_post_id, 15 );
 
 		if ( empty( $similar_posts ) ) {
-			return new WP_Error( 'no_similar_posts', 'No indexed posts found. Please index your posts first from the settings page.' );
+			return new WP_Error( 'no_similar_posts', __( 'No indexed posts found. Please index your posts first from the settings page.', 'contextual-link-weaver' ) );
 		}
 
 		// 3. Enrich with post data.
 		$post_list = self::build_post_list( $similar_posts );
 
 		if ( empty( $post_list ) ) {
-			return new WP_Error( 'no_posts', 'Could not load post data for similar posts.' );
+			return new WP_Error( 'no_posts', __( 'Could not load post data for similar posts.', 'contextual-link-weaver' ) );
 		}
 
 		// 4. Call Gemini generative API for anchor text selection.
@@ -51,7 +51,7 @@ class CLW_Suggestions {
 		}
 
 		if ( ! is_array( $raw_suggestions ) ) {
-			return new WP_Error( 'invalid_response', 'API returned a non-array response.' );
+			return new WP_Error( 'invalid_response', __( 'API returned a non-array response.', 'contextual-link-weaver' ) );
 		}
 
 		// 5. Enrich suggestions with title, url, and similarity score.
@@ -123,11 +123,11 @@ If you cannot find any good matches that follow all the rules, return an empty a
 	private static function call_generative_api( $prompt ) {
 		$api_key = get_option( 'clw_gemini_api_key' );
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'api_key_missing', 'Gemini API key is not set.' );
+			return new WP_Error( 'api_key_missing', __( 'Gemini API key is not set.', 'contextual-link-weaver' ) );
 		}
 
-		$model_id = 'gemini-3-flash-preview';
-		$api_url  = "https://generativelanguage.googleapis.com/v1beta/models/{$model_id}:generateContent?key={$api_key}";
+		$model_id = apply_filters( 'clw_generative_model', 'gemini-3.7-flash' );
+		$api_url  = "https://generativelanguage.googleapis.com/v1beta/models/{$model_id}:generateContent";
 
 		$request_body = array(
 			'contents'         => array(
@@ -142,7 +142,10 @@ If you cannot find any good matches that follow all the rules, return an empty a
 		);
 
 		$response = wp_remote_post( $api_url, array(
-			'headers' => array( 'Content-Type' => 'application/json' ),
+			'headers' => array(
+				'Content-Type'   => 'application/json',
+				'x-goog-api-key' => $api_key,
+			),
 			'body'    => wp_json_encode( $request_body ),
 			'timeout' => 60,
 		) );
@@ -154,19 +157,20 @@ If you cannot find any good matches that follow all the rules, return an empty a
 		$code = wp_remote_retrieve_response_code( $response );
 		if ( $code !== 200 ) {
 			$body = wp_remote_retrieve_body( $response );
-			return new WP_Error( 'generative_api_error', "Gemini API returned status $code", $body );
+			/* translators: %d: HTTP status code. */
+			return new WP_Error( 'generative_api_error', sprintf( __( 'Gemini API returned status %d', 'contextual-link-weaver' ), $code ), $body );
 		}
 
 		$body           = json_decode( wp_remote_retrieve_body( $response ), true );
 		$generated_text = $body['candidates'][0]['content']['parts'][0]['text'] ?? null;
 
 		if ( ! $generated_text ) {
-			return new WP_Error( 'invalid_response', 'Could not find generated text in API response.' );
+			return new WP_Error( 'invalid_response', __( 'Could not find generated text in API response.', 'contextual-link-weaver' ) );
 		}
 
 		$parsed = json_decode( $generated_text, true );
 		if ( json_last_error() !== JSON_ERROR_NONE ) {
-			return new WP_Error( 'json_parse_error', 'Failed to parse JSON from Gemini response.' );
+			return new WP_Error( 'json_parse_error', __( 'Failed to parse JSON from Gemini response.', 'contextual-link-weaver' ) );
 		}
 
 		return $parsed;

@@ -41,10 +41,10 @@ class CLW_Embeddings {
 	public static function call_embedding_api( $text, $task_type = 'RETRIEVAL_DOCUMENT' ) {
 		$api_key = get_option( 'clw_gemini_api_key' );
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'api_key_missing', 'Gemini API key is not set.' );
+			return new WP_Error( 'api_key_missing', __( 'Gemini API key is not set.', 'contextual-link-weaver' ) );
 		}
 
-		$api_url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent?key=' . $api_key;
+		$api_url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent';
 
 		$request_body = array(
 			'model'   => 'models/gemini-embedding-001',
@@ -55,7 +55,10 @@ class CLW_Embeddings {
 		);
 
 		$response = wp_remote_post( $api_url, array(
-			'headers' => array( 'Content-Type' => 'application/json' ),
+			'headers' => array(
+				'Content-Type'   => 'application/json',
+				'x-goog-api-key' => $api_key,
+			),
 			'body'    => wp_json_encode( $request_body ),
 			'timeout' => 30,
 		) );
@@ -67,14 +70,15 @@ class CLW_Embeddings {
 		$code = wp_remote_retrieve_response_code( $response );
 		if ( $code !== 200 ) {
 			$body = wp_remote_retrieve_body( $response );
-			return new WP_Error( 'embedding_api_error', "Embedding API returned status $code", $body );
+			/* translators: %d: HTTP status code. */
+			return new WP_Error( 'embedding_api_error', sprintf( __( 'Embedding API returned status %d', 'contextual-link-weaver' ), $code ), $body );
 		}
 
 		$body   = json_decode( wp_remote_retrieve_body( $response ), true );
 		$values = $body['embedding']['values'] ?? null;
 
 		if ( ! is_array( $values ) ) {
-			return new WP_Error( 'embedding_parse_error', 'Could not parse embedding values from API response.' );
+			return new WP_Error( 'embedding_parse_error', __( 'Could not parse embedding values from API response.', 'contextual-link-weaver' ) );
 		}
 
 		return $values;
@@ -88,7 +92,7 @@ class CLW_Embeddings {
 	public static function embed_post( $post_id ) {
 		$post = get_post( $post_id );
 		if ( ! $post || $post->post_status !== 'publish' || $post->post_type !== 'post' ) {
-			return new WP_Error( 'invalid_post', 'Post is not a published post.' );
+			return new WP_Error( 'invalid_post', __( 'Post is not a published post.', 'contextual-link-weaver' ) );
 		}
 
 		$content_hash = self::get_content_hash( $post );

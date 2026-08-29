@@ -4,6 +4,8 @@
  * Plugin URI:        https://github.com/geosem42/contextual-link-weaver
  * Description:       Uses Gemini AI and semantic embeddings to provide intelligent, context-aware internal linking suggestions.
  * Version:           2.0.0
+ * Requires at least: 6.8
+ * Requires PHP:      8.2
  * Author:            George Semaan
  * Author URI:        https://logicvoid.dev
  * License:           GPL v2 or later
@@ -45,8 +47,8 @@ add_action( 'admin_init', 'clw_settings_init' );
 
 function clw_add_admin_menu() {
 	add_options_page(
-		'Contextual Link Weaver Settings',
-		'Link Weaver',
+		__( 'Contextual Link Weaver Settings', 'contextual-link-weaver' ),
+		__( 'Link Weaver', 'contextual-link-weaver' ),
 		'manage_options',
 		'contextual-link-weaver',
 		'clw_settings_page_html'
@@ -61,20 +63,20 @@ function clw_settings_init() {
 
 	add_settings_section(
 		'clw_api_settings_section',
-		'API Settings',
+		__( 'API Settings', 'contextual-link-weaver' ),
 		function () {
-			echo '<p>Enter your Google Gemini API key below. This key is used for both generating embeddings and AI-powered link suggestions.</p>';
+			echo '<p>' . esc_html__( 'Enter your Google Gemini API key below. This key is used for both generating embeddings and AI-powered link suggestions.', 'contextual-link-weaver' ) . '</p>';
 		},
 		'contextual-link-weaver'
 	);
 
 	add_settings_field(
 		'clw_gemini_api_key_field',
-		'Gemini API Key',
+		__( 'Gemini API Key', 'contextual-link-weaver' ),
 		function () {
 			$api_key = get_option( 'clw_gemini_api_key' );
 			printf(
-				'<input type="password" name="clw_gemini_api_key" value="%s" size="50" />',
+				'<input type="password" name="clw_gemini_api_key" value="%s" size="50" autocomplete="off" />',
 				esc_attr( $api_key )
 			);
 		},
@@ -97,33 +99,36 @@ function clw_settings_page_html() {
 			<?php
 			settings_fields( 'clw_settings_group' );
 			do_settings_sections( 'contextual-link-weaver' );
-			submit_button( 'Save Settings' );
+			submit_button( __( 'Save Settings', 'contextual-link-weaver' ) );
 			?>
 		</form>
 
 		<hr />
 
-		<h2>Embedding Index</h2>
+		<h2><?php esc_html_e( 'Embedding Index', 'contextual-link-weaver' ); ?></h2>
 		<p>
-			The embedding index allows Link Weaver to find semantically related posts without
-			sending your entire post catalog to the AI on every request.
+			<?php esc_html_e( 'The embedding index allows Link Weaver to find semantically related posts without sending your entire post catalog to the AI on every request.', 'contextual-link-weaver' ); ?>
 		</p>
 
 		<table class="form-table">
 			<tr>
-				<th scope="row">Index Status</th>
+				<th scope="row"><?php esc_html_e( 'Index Status', 'contextual-link-weaver' ); ?></th>
 				<td>
-					<span id="clw-indexed-count"><?php echo esc_html( $stats['indexed'] ); ?></span>
-					of
-					<span id="clw-total-count"><?php echo esc_html( $stats['total'] ); ?></span>
-					posts indexed
+					<?php
+					printf(
+						/* translators: 1: number of indexed posts, 2: total number of published posts. */
+						esc_html__( '%1$s of %2$s posts indexed', 'contextual-link-weaver' ),
+						'<span id="clw-indexed-count">' . esc_html( $stats['indexed'] ) . '</span>',
+						'<span id="clw-total-count">' . esc_html( $stats['total'] ) . '</span>'
+					);
+					?>
 				</td>
 			</tr>
 			<tr>
-				<th scope="row">Actions</th>
+				<th scope="row"><?php esc_html_e( 'Actions', 'contextual-link-weaver' ); ?></th>
 				<td>
 					<button type="button" id="clw-index-all-btn" class="button button-secondary">
-						Index All Posts
+						<?php esc_html_e( 'Index All Posts', 'contextual-link-weaver' ); ?>
 					</button>
 					<span id="clw-index-status-text" style="margin-left: 10px;"></span>
 
@@ -161,6 +166,17 @@ function clw_enqueue_admin_assets( $hook_suffix ) {
 	wp_localize_script( 'clw-admin-script', 'clwAdmin', array(
 		'ajax_url' => admin_url( 'admin-ajax.php' ),
 		'nonce'    => wp_create_nonce( 'clw_bulk_index_nonce' ),
+		'i18n'     => array(
+			'starting'     => __( 'Starting...', 'contextual-link-weaver' ),
+			'complete'     => __( 'Indexing complete!', 'contextual-link-weaver' ),
+			/* translators: 1: indexed count, 2: total count, 3: percentage. */
+			'progress'     => __( 'Indexed %1$s of %2$s (%3$s%%)', 'contextual-link-weaver' ),
+			/* translators: %s: number of errors. */
+			'batchErrors'  => __( '%s error(s) in this batch', 'contextual-link-weaver' ),
+			'error'        => __( 'Error:', 'contextual-link-weaver' ),
+			'networkError' => __( 'Network error:', 'contextual-link-weaver' ),
+			'unknownError' => __( 'Unknown error', 'contextual-link-weaver' ),
+		),
 	) );
 }
 
@@ -196,6 +212,8 @@ function clw_enqueue_editor_assets() {
 		$asset_file['dependencies'],
 		$asset_file['version']
 	);
+
+	wp_set_script_translations( 'contextual-link-weaver-editor-script', 'contextual-link-weaver' );
 }
 
 /*

@@ -8,6 +8,7 @@
 		var progressWrap = document.getElementById( 'clw-progress-bar-container' );
 		var indexedEl   = document.getElementById( 'clw-indexed-count' );
 		var totalEl     = document.getElementById( 'clw-total-count' );
+		var i18n        = clwAdmin.i18n || {};
 
 		if ( ! btn ) {
 			return;
@@ -16,7 +17,7 @@
 		btn.addEventListener( 'click', function () {
 			btn.disabled = true;
 			progressWrap.style.display = 'block';
-			statusText.textContent = 'Starting...';
+			statusText.textContent = i18n.starting;
 			processBatch();
 		} );
 
@@ -35,7 +36,7 @@
 				} )
 				.then( function ( result ) {
 					if ( ! result.success ) {
-						statusText.textContent = 'Error: ' + ( result.data || 'Unknown error' );
+						statusText.textContent = i18n.error + ' ' + ( result.data || i18n.unknownError );
 						btn.disabled = false;
 						return;
 					}
@@ -48,21 +49,24 @@
 					indexedEl.textContent = indexed;
 					totalEl.textContent   = total;
 					progressBar.style.width = pct + '%';
-					statusText.textContent  = 'Indexed ' + indexed + ' of ' + total + ' (' + pct + '%)';
+					statusText.textContent = i18n.progress
+						.replace( '%1$s', indexed )
+						.replace( '%2$s', total )
+						.replace( '%3$s', pct );
 
 					if ( data.errors && data.errors.length > 0 ) {
-						statusText.textContent += ' — ' + data.errors.length + ' error(s) in this batch';
+						statusText.textContent += ' — ' + i18n.batchErrors.replace( '%s', data.errors.length );
 					}
 
 					if ( data.remaining > 0 ) {
 						processBatch();
 					} else {
-						statusText.textContent = 'Indexing complete!';
+						statusText.textContent = i18n.complete;
 						btn.disabled = false;
 					}
 				} )
 				.catch( function ( err ) {
-					statusText.textContent = 'Network error: ' + err.message;
+					statusText.textContent = i18n.networkError + ' ' + err.message;
 					btn.disabled = false;
 				} );
 		}
