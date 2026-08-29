@@ -18,7 +18,7 @@ function clw_uninstall_site() {
 	delete_option( 'clw_gemini_api_key' );
 	delete_option( 'clw_db_version' );
 
-	$table = $wpdb->prefix . 'clw_embeddings';
+	$table = esc_sql( $wpdb->prefix . 'clw_embeddings' );
 	$wpdb->query( "DROP TABLE IF EXISTS `{$table}`" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.SchemaChange
 }
 

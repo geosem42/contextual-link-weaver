@@ -210,7 +210,8 @@ function clw_enqueue_editor_assets() {
 		'contextual-link-weaver-editor-script',
 		CLW_PLUGIN_URL . 'build/index.js',
 		$asset_file['dependencies'],
-		$asset_file['version']
+		$asset_file['version'],
+		array( 'in_footer' => true )
 	);
 
 	wp_set_script_translations( 'contextual-link-weaver-editor-script', 'contextual-link-weaver' );
