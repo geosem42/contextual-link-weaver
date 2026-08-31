@@ -63,7 +63,7 @@ const SuggestionItem = ( { suggestion, blocks, updateBlockAttributes, onInserted
 			</div>
 			<p style={ { margin: '0 0 6px 0', fontSize: '13px' } }>
 				<strong>
-					{ __( 'Anchor text:', 'contextual-link-weaver' ) }
+					{ __( 'Anchor text:', 'interpost' ) }
 				</strong>{ ' ' }
 				<em>"{ suggestion.anchor_text }"</em>
 			</p>
@@ -77,7 +77,7 @@ const SuggestionItem = ( { suggestion, blocks, updateBlockAttributes, onInserted
 				{ suggestion.reasoning }
 			</p>
 			<Button variant="secondary" size="small" onClick={ handleInsert }>
-				{ __( 'Insert Link', 'contextual-link-weaver' ) }
+				{ __( 'Insert Link', 'interpost' ) }
 			</Button>
 		</div>
 	);

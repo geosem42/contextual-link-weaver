@@ -2,13 +2,13 @@
 	'use strict';
 
 	document.addEventListener( 'DOMContentLoaded', function () {
-		var btn         = document.getElementById( 'clw-index-all-btn' );
-		var statusText  = document.getElementById( 'clw-index-status-text' );
-		var progressBar = document.getElementById( 'clw-progress-bar' );
-		var progressWrap = document.getElementById( 'clw-progress-bar-container' );
-		var indexedEl   = document.getElementById( 'clw-indexed-count' );
-		var totalEl     = document.getElementById( 'clw-total-count' );
-		var i18n        = clwAdmin.i18n || {};
+		var btn         = document.getElementById( 'interpost-index-all-btn' );
+		var statusText  = document.getElementById( 'interpost-index-status-text' );
+		var progressBar = document.getElementById( 'interpost-progress-bar' );
+		var progressWrap = document.getElementById( 'interpost-progress-bar-container' );
+		var indexedEl   = document.getElementById( 'interpost-indexed-count' );
+		var totalEl     = document.getElementById( 'interpost-total-count' );
+		var i18n        = interpostAdmin.i18n || {};
 
 		if ( ! btn ) {
 			return;
@@ -23,10 +23,10 @@
 
 		function processBatch() {
 			var formData = new FormData();
-			formData.append( 'action', 'clw_bulk_index' );
-			formData.append( 'nonce', clwAdmin.nonce );
+			formData.append( 'action', 'interpost_bulk_index' );
+			formData.append( 'nonce', interpostAdmin.nonce );
 
-			fetch( clwAdmin.ajax_url, {
+			fetch( interpostAdmin.ajax_url, {
 				method: 'POST',
 				credentials: 'same-origin',
 				body: formData,

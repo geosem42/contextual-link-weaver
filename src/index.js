@@ -3,18 +3,18 @@ import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
 import { __ } from '@wordpress/i18n';
 import Sidebar from './components/Sidebar';
 
-registerPlugin( 'link-weaver-plugin', {
+registerPlugin( 'interpost-plugin', {
 	render: () => (
 		<>
 			<PluginSidebarMoreMenuItem
-				target="link-weaver-sidebar"
+				target="interpost-sidebar"
 				icon="admin-links"
 			>
-				{ __( 'Link Weaver', 'contextual-link-weaver' ) }
+				{ __( 'Interpost', 'interpost' ) }
 			</PluginSidebarMoreMenuItem>
 			<PluginSidebar
-				name="link-weaver-sidebar"
-				title={ __( 'Link Weaver', 'contextual-link-weaver' ) }
+				name="interpost-sidebar"
+				title={ __( 'Interpost', 'interpost' ) }
 				icon="admin-links"
 			>
 				<Sidebar />
