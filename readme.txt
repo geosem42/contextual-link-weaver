@@ -1,5 +1,5 @@
-=== Pagelace Internal Links ===
-Contributors: geosem
+=== Contextual Link Weaver ===
+Contributors: geosem42
 Tags: internal links, seo, ai, related posts, block editor
 Requires at least: 6.8
 Tested up to: 7.1
@@ -12,18 +12,18 @@ AI-powered internal linking: semantic embeddings find your most related posts an
 
 == Description ==
 
-Pagelace Internal Links helps you build a strong internal link structure without leaving the editor. Instead of keyword matching, it understands what your posts are *about* — using semantic embeddings to find genuinely related content, then AI to pick anchor text that already exists naturally in your draft.
+Contextual Link Weaver helps you build a strong internal link structure without leaving the editor. Instead of keyword matching, it understands what your posts are *about* — using semantic embeddings to find genuinely related content, then AI to pick anchor text that already exists naturally in your draft.
 
 = How it works =
 
 1. **Index your posts** — the plugin generates a semantic embedding for each published post and stores it locally in your database. This happens automatically on publish/update, or in bulk from the settings page.
-2. **Find related posts** — while editing, click *Find Related Posts* in the Pagelace sidebar. Your draft is embedded and compared against your indexed posts by cosine similarity. No AI call is needed for this step beyond the single draft embedding.
+2. **Find related posts** — while editing, click *Find Related Posts* in the Link Weaver sidebar. Your draft is embedded and compared against your indexed posts by cosine similarity. No AI call is needed for this step beyond the single draft embedding.
 3. **Get anchor text suggestions** — only your top 15 most similar posts are sent to the AI along with your draft. It selects natural 4–6 word phrases that exist verbatim in your text and pairs each with the most relevant post.
 4. **Insert links** — one click adds the link at the suggested anchor text location in the editor.
 
 = Why semantic instead of keyword matching? =
 
-Keyword-based internal linking tools suggest links wherever a word happens to appear. Pagelace Internal Links compares the *meaning* of your draft against the meaning of every published post, so a post about "neuroplasticity in adults" can be linked from a draft about "learning new skills after 40" even if they share no keywords.
+Keyword-based internal linking tools suggest links wherever a word happens to appear. Contextual Link Weaver compares the *meaning* of your draft against the meaning of every published post, so a post about "neuroplasticity in adults" can be linked from a draft about "learning new skills after 40" even if they share no keywords.
 
 = Requirements =
 
@@ -47,9 +47,9 @@ This service is provided by Google: [Terms of Service](https://ai.google.dev/gem
 == Installation ==
 
 1. Install and activate the plugin.
-2. Go to **Settings → Pagelace** and enter your [Google Gemini API key](https://aistudio.google.com/apikey).
+2. Go to **Settings → Link Weaver** and enter your [Google Gemini API key](https://aistudio.google.com/apikey).
 3. Click **Index All Posts** to generate embeddings for your existing published posts.
-4. Open any post in the block editor and use the **Pagelace** sidebar.
+4. Open any post in the block editor and use the **Link Weaver** sidebar.
 
 == Frequently Asked Questions ==
 
@@ -75,7 +75,7 @@ In a dedicated table in your own WordPress database. Deleting the plugin removes
 
 == Screenshots ==
 
-1. The Pagelace sidebar in the block editor showing anchor text suggestions.
+1. The Link Weaver sidebar in the block editor showing anchor text suggestions.
 2. Settings page with API key field and bulk indexing progress.
 
 == Changelog ==

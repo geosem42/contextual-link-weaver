@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Pagelace_Embeddings {
+class CLW_Embeddings {
 
 	/**
 	 * Compute MD5 hash of a post's title + content for change detection.
@@ -39,9 +39,9 @@ class Pagelace_Embeddings {
 	 * @return array|WP_Error   Array of 768 floats on success.
 	 */
 	public static function call_embedding_api( $text, $task_type = 'RETRIEVAL_DOCUMENT' ) {
-		$api_key = get_option( 'pagelace_gemini_api_key' );
+		$api_key = get_option( 'clw_gemini_api_key' );
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'api_key_missing', __( 'Gemini API key is not set.', 'pagelace-internal-links' ) );
+			return new WP_Error( 'api_key_missing', __( 'Gemini API key is not set.', 'contextual-link-weaver' ) );
 		}
 
 		$api_url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-001:embedContent';
@@ -71,14 +71,14 @@ class Pagelace_Embeddings {
 		if ( $code !== 200 ) {
 			$body = wp_remote_retrieve_body( $response );
 			/* translators: %d: HTTP status code. */
-			return new WP_Error( 'embedding_api_error', sprintf( __( 'Embedding API returned status %d', 'pagelace-internal-links' ), $code ), $body );
+			return new WP_Error( 'embedding_api_error', sprintf( __( 'Embedding API returned status %d', 'contextual-link-weaver' ), $code ), $body );
 		}
 
 		$body   = json_decode( wp_remote_retrieve_body( $response ), true );
 		$values = $body['embedding']['values'] ?? null;
 
 		if ( ! is_array( $values ) ) {
-			return new WP_Error( 'embedding_parse_error', __( 'Could not parse embedding values from API response.', 'pagelace-internal-links' ) );
+			return new WP_Error( 'embedding_parse_error', __( 'Could not parse embedding values from API response.', 'contextual-link-weaver' ) );
 		}
 
 		return $values;
@@ -92,13 +92,13 @@ class Pagelace_Embeddings {
 	public static function embed_post( $post_id ) {
 		$post = get_post( $post_id );
 		if ( ! $post || $post->post_status !== 'publish' || $post->post_type !== 'post' ) {
-			return new WP_Error( 'invalid_post', __( 'Post is not a published post.', 'pagelace-internal-links' ) );
+			return new WP_Error( 'invalid_post', __( 'Post is not a published post.', 'contextual-link-weaver' ) );
 		}
 
 		$content_hash = self::get_content_hash( $post );
 
 		// Skip if content hasn't changed.
-		$existing = Pagelace_Database::get_embedding( $post_id );
+		$existing = CLW_Database::get_embedding( $post_id );
 		if ( $existing && $existing['content_hash'] === $content_hash ) {
 			return true;
 		}
@@ -110,7 +110,7 @@ class Pagelace_Embeddings {
 			return $embedding;
 		}
 
-		Pagelace_Database::upsert_embedding( $post_id, wp_json_encode( $embedding ), $content_hash );
+		CLW_Database::upsert_embedding( $post_id, wp_json_encode( $embedding ), $content_hash );
 
 		return true;
 	}
@@ -131,12 +131,12 @@ class Pagelace_Embeddings {
 
 		// If post is no longer published, remove its embedding.
 		if ( $post->post_status !== 'publish' ) {
-			Pagelace_Database::delete_embedding( $post_id );
+			CLW_Database::delete_embedding( $post_id );
 			return;
 		}
 
 		// Only embed if API key is configured.
-		if ( empty( get_option( 'pagelace_gemini_api_key' ) ) ) {
+		if ( empty( get_option( 'clw_gemini_api_key' ) ) ) {
 			return;
 		}
 
@@ -147,13 +147,13 @@ class Pagelace_Embeddings {
 	 * AJAX handler for bulk indexing. Processes a batch of unindexed posts.
 	 */
 	public static function ajax_bulk_index() {
-		check_ajax_referer( 'pagelace_bulk_index_nonce', 'nonce' );
+		check_ajax_referer( 'clw_bulk_index_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( 'Unauthorized', 403 );
 		}
 
-		$post_ids  = Pagelace_Database::get_unindexed_post_ids( 10 );
+		$post_ids  = CLW_Database::get_unindexed_post_ids( 10 );
 		$processed = 0;
 		$errors    = array();
 
@@ -169,7 +169,7 @@ class Pagelace_Embeddings {
 			}
 		}
 
-		$stats = Pagelace_Database::get_index_stats();
+		$stats = CLW_Database::get_index_stats();
 
 		wp_send_json_success( array(
 			'processed' => $processed,
@@ -214,7 +214,7 @@ class Pagelace_Embeddings {
 	 * @return array Array of [ 'post_id' => int, 'similarity' => float ].
 	 */
 	public static function find_similar_posts( $query_embedding, $current_post_id, $top_n = 15 ) {
-		$all    = Pagelace_Database::get_all_embeddings();
+		$all    = CLW_Database::get_all_embeddings();
 		$scores = array();
 
 		foreach ( $all as $post_id => $row ) {

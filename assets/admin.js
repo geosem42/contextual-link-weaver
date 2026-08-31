@@ -2,13 +2,13 @@
 	'use strict';
 
 	document.addEventListener( 'DOMContentLoaded', function () {
-		var btn         = document.getElementById( 'pagelace-index-all-btn' );
-		var statusText  = document.getElementById( 'pagelace-index-status-text' );
-		var progressBar = document.getElementById( 'pagelace-progress-bar' );
-		var progressWrap = document.getElementById( 'pagelace-progress-bar-container' );
-		var indexedEl   = document.getElementById( 'pagelace-indexed-count' );
-		var totalEl     = document.getElementById( 'pagelace-total-count' );
-		var i18n        = pagelaceAdmin.i18n || {};
+		var btn         = document.getElementById( 'clw-index-all-btn' );
+		var statusText  = document.getElementById( 'clw-index-status-text' );
+		var progressBar = document.getElementById( 'clw-progress-bar' );
+		var progressWrap = document.getElementById( 'clw-progress-bar-container' );
+		var indexedEl   = document.getElementById( 'clw-indexed-count' );
+		var totalEl     = document.getElementById( 'clw-total-count' );
+		var i18n        = clwAdmin.i18n || {};
 
 		if ( ! btn ) {
 			return;
@@ -23,10 +23,10 @@
 
 		function processBatch() {
 			var formData = new FormData();
-			formData.append( 'action', 'pagelace_bulk_index' );
-			formData.append( 'nonce', pagelaceAdmin.nonce );
+			formData.append( 'action', 'clw_bulk_index' );
+			formData.append( 'nonce', clwAdmin.nonce );
 
-			fetch( pagelaceAdmin.ajax_url, {
+			fetch( clwAdmin.ajax_url, {
 				method: 'POST',
 				credentials: 'same-origin',
 				body: formData,
