@@ -26,7 +26,7 @@ const Sidebar = () => {
 			setError(
 				__(
 					'Cannot generate suggestions for an empty post.',
-					'contextual-link-weaver'
+					'pagelace-internal-links'
 				)
 			);
 			return;
@@ -37,7 +37,7 @@ const Sidebar = () => {
 		setSuggestions( [] );
 
 		apiFetch( {
-			path: '/contextual-link-weaver/v1/suggestions',
+			path: '/pagelace-internal-links/v1/suggestions',
 			method: 'POST',
 			data: {
 				content: postContent,
@@ -51,7 +51,7 @@ const Sidebar = () => {
 						setError(
 							__(
 								'No link suggestions found for this content.',
-								'contextual-link-weaver'
+								'pagelace-internal-links'
 							)
 						);
 					}
@@ -61,7 +61,7 @@ const Sidebar = () => {
 					setError(
 						__(
 							'The API returned an unexpected format.',
-							'contextual-link-weaver'
+							'pagelace-internal-links'
 						)
 					);
 				}
@@ -72,7 +72,7 @@ const Sidebar = () => {
 					err.message ||
 						__(
 							'An unknown error occurred.',
-							'contextual-link-weaver'
+							'pagelace-internal-links'
 						)
 				);
 				setIsLoading( false );
@@ -81,12 +81,12 @@ const Sidebar = () => {
 
 	return (
 		<PanelBody
-			title={ __( 'Link Suggestions', 'contextual-link-weaver' ) }
+			title={ __( 'Link Suggestions', 'pagelace-internal-links' ) }
 		>
 			<p style={ { fontSize: '12px', color: '#555' } }>
 				{ __(
 					'Analyze your content to find semantically related posts and generate link suggestions.',
-					'contextual-link-weaver'
+					'pagelace-internal-links'
 				) }
 			</p>
 			<Button
@@ -96,8 +96,8 @@ const Sidebar = () => {
 				disabled={ isLoading }
 			>
 				{ isLoading
-					? __( 'Analyzing...', 'contextual-link-weaver' )
-					: __( 'Find Related Posts', 'contextual-link-weaver' ) }
+					? __( 'Analyzing...', 'pagelace-internal-links' )
+					: __( 'Find Related Posts', 'pagelace-internal-links' ) }
 			</Button>
 
 			{ isLoading && <Spinner style={ { marginTop: '10px' } } /> }
@@ -116,7 +116,7 @@ const Sidebar = () => {
 							fontSize: '14px',
 						} }
 					>
-						{ __( 'Suggestions:', 'contextual-link-weaver' ) }
+						{ __( 'Suggestions:', 'pagelace-internal-links' ) }
 					</h4>
 					{ suggestions.map( ( item, index ) => (
 						<SuggestionItem

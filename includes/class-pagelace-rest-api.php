@@ -3,13 +3,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class CLW_Rest_API {
+class Pagelace_Rest_API {
 
 	/**
 	 * Register all REST API routes.
 	 */
 	public static function register_routes() {
-		register_rest_route( 'contextual-link-weaver/v1', '/suggestions', array(
+		register_rest_route( 'pagelace-internal-links/v1', '/suggestions', array(
 			'methods'             => 'POST',
 			'callback'            => array( __CLASS__, 'handle_suggestions' ),
 			'permission_callback' => function () {
@@ -29,7 +29,7 @@ class CLW_Rest_API {
 			),
 		) );
 
-		register_rest_route( 'contextual-link-weaver/v1', '/index', array(
+		register_rest_route( 'pagelace-internal-links/v1', '/index', array(
 			'methods'             => 'POST',
 			'callback'            => array( __CLASS__, 'handle_index' ),
 			'permission_callback' => function () {
@@ -37,7 +37,7 @@ class CLW_Rest_API {
 			},
 		) );
 
-		register_rest_route( 'contextual-link-weaver/v1', '/index-status', array(
+		register_rest_route( 'pagelace-internal-links/v1', '/index-status', array(
 			'methods'             => 'GET',
 			'callback'            => array( __CLASS__, 'handle_index_status' ),
 			'permission_callback' => function () {
@@ -54,10 +54,10 @@ class CLW_Rest_API {
 		$post_id = $request->get_param( 'post_id' );
 
 		if ( empty( trim( $content ) ) ) {
-			return new WP_REST_Response( array( 'error' => __( 'Content is empty.', 'contextual-link-weaver' ) ), 400 );
+			return new WP_REST_Response( array( 'error' => __( 'Content is empty.', 'pagelace-internal-links' ) ), 400 );
 		}
 
-		$suggestions = CLW_Suggestions::get_suggestions( $content, $post_id );
+		$suggestions = Pagelace_Suggestions::get_suggestions( $content, $post_id );
 
 		if ( is_wp_error( $suggestions ) ) {
 			return new WP_REST_Response(
@@ -73,12 +73,12 @@ class CLW_Rest_API {
 	 * Handle batch indexing via REST API.
 	 */
 	public static function handle_index( WP_REST_Request $request ) {
-		$post_ids  = CLW_Database::get_unindexed_post_ids( 10 );
+		$post_ids  = Pagelace_Database::get_unindexed_post_ids( 10 );
 		$processed = 0;
 		$errors    = array();
 
 		foreach ( $post_ids as $post_id ) {
-			$result = CLW_Embeddings::embed_post( (int) $post_id );
+			$result = Pagelace_Embeddings::embed_post( (int) $post_id );
 			if ( is_wp_error( $result ) ) {
 				$errors[] = array(
 					'post_id' => $post_id,
@@ -89,7 +89,7 @@ class CLW_Rest_API {
 			}
 		}
 
-		$stats = CLW_Database::get_index_stats();
+		$stats = Pagelace_Database::get_index_stats();
 
 		return new WP_REST_Response( array(
 			'processed' => $processed,
@@ -104,6 +104,6 @@ class CLW_Rest_API {
 	 * Return current indexing status.
 	 */
 	public static function handle_index_status( WP_REST_Request $request ) {
-		return new WP_REST_Response( CLW_Database::get_index_stats(), 200 );
+		return new WP_REST_Response( Pagelace_Database::get_index_stats(), 200 );
 	}
 }

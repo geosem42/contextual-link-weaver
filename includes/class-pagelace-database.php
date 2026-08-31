@@ -3,14 +3,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class CLW_Database {
+class Pagelace_Database {
 
 	/**
 	 * Get the embeddings table name.
 	 */
 	public static function table_name() {
 		global $wpdb;
-		return $wpdb->prefix . 'clw_embeddings';
+		return $wpdb->prefix . 'pagelace_embeddings';
 	}
 
 	/**
@@ -35,7 +35,7 @@ class CLW_Database {
 
 		dbDelta( $sql );
 
-		update_option( 'clw_db_version', CLW_VERSION );
+		update_option( 'pagelace_db_version', PAGELACE_VERSION );
 	}
 
 	/**
@@ -138,7 +138,7 @@ class CLW_Database {
 	 * AJAX handler to return index status.
 	 */
 	public static function ajax_index_status() {
-		check_ajax_referer( 'clw_bulk_index_nonce', 'nonce' );
+		check_ajax_referer( 'pagelace_bulk_index_nonce', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error( 'Unauthorized', 403 );

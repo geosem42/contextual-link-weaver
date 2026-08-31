@@ -1,5 +1,5 @@
 {
-  "name": "contextual-link-weaver",
+  "name": "pagelace-internal-links",
   "version": "2.0.0",
   "description": "Uses Gemini AI and semantic embeddings to provide intelligent, context-aware internal linking suggestions.",
   "main": "build/index.js",

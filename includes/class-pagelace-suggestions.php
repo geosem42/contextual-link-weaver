@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class CLW_Suggestions {
+class Pagelace_Suggestions {
 
 	/**
 	 * Main pipeline: embed draft → find similar posts → get AI anchor text suggestions.
@@ -23,23 +23,23 @@ class CLW_Suggestions {
 			$plain_text = implode( ' ', array_slice( $words, 0, 2000 ) );
 		}
 
-		$draft_embedding = CLW_Embeddings::call_embedding_api( $plain_text, 'RETRIEVAL_QUERY' );
+		$draft_embedding = Pagelace_Embeddings::call_embedding_api( $plain_text, 'RETRIEVAL_QUERY' );
 		if ( is_wp_error( $draft_embedding ) ) {
 			return $draft_embedding;
 		}
 
 		// 2. Find similar posts.
-		$similar_posts = CLW_Embeddings::find_similar_posts( $draft_embedding, $current_post_id, 15 );
+		$similar_posts = Pagelace_Embeddings::find_similar_posts( $draft_embedding, $current_post_id, 15 );
 
 		if ( empty( $similar_posts ) ) {
-			return new WP_Error( 'no_similar_posts', __( 'No indexed posts found. Please index your posts first from the settings page.', 'contextual-link-weaver' ) );
+			return new WP_Error( 'no_similar_posts', __( 'No indexed posts found. Please index your posts first from the settings page.', 'pagelace-internal-links' ) );
 		}
 
 		// 3. Enrich with post data.
 		$post_list = self::build_post_list( $similar_posts );
 
 		if ( empty( $post_list ) ) {
-			return new WP_Error( 'no_posts', __( 'Could not load post data for similar posts.', 'contextual-link-weaver' ) );
+			return new WP_Error( 'no_posts', __( 'Could not load post data for similar posts.', 'pagelace-internal-links' ) );
 		}
 
 		// 4. Call Gemini generative API for anchor text selection.
@@ -51,7 +51,7 @@ class CLW_Suggestions {
 		}
 
 		if ( ! is_array( $raw_suggestions ) ) {
-			return new WP_Error( 'invalid_response', __( 'API returned a non-array response.', 'contextual-link-weaver' ) );
+			return new WP_Error( 'invalid_response', __( 'API returned a non-array response.', 'pagelace-internal-links' ) );
 		}
 
 		// 5. Enrich suggestions with title, url, and similarity score.
@@ -121,12 +121,12 @@ If you cannot find any good matches that follow all the rules, return an empty a
 	 * Call the Gemini generative API for anchor text suggestions.
 	 */
 	private static function call_generative_api( $prompt ) {
-		$api_key = get_option( 'clw_gemini_api_key' );
+		$api_key = get_option( 'pagelace_gemini_api_key' );
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'api_key_missing', __( 'Gemini API key is not set.', 'contextual-link-weaver' ) );
+			return new WP_Error( 'api_key_missing', __( 'Gemini API key is not set.', 'pagelace-internal-links' ) );
 		}
 
-		$model_id = apply_filters( 'clw_generative_model', 'gemini-3.7-flash' );
+		$model_id = apply_filters( 'pagelace_generative_model', 'gemini-3.7-flash' );
 		$api_url  = "https://generativelanguage.googleapis.com/v1beta/models/{$model_id}:generateContent";
 
 		$request_body = array(
@@ -158,19 +158,19 @@ If you cannot find any good matches that follow all the rules, return an empty a
 		if ( $code !== 200 ) {
 			$body = wp_remote_retrieve_body( $response );
 			/* translators: %d: HTTP status code. */
-			return new WP_Error( 'generative_api_error', sprintf( __( 'Gemini API returned status %d', 'contextual-link-weaver' ), $code ), $body );
+			return new WP_Error( 'generative_api_error', sprintf( __( 'Gemini API returned status %d', 'pagelace-internal-links' ), $code ), $body );
 		}
 
 		$body           = json_decode( wp_remote_retrieve_body( $response ), true );
 		$generated_text = $body['candidates'][0]['content']['parts'][0]['text'] ?? null;
 
 		if ( ! $generated_text ) {
-			return new WP_Error( 'invalid_response', __( 'Could not find generated text in API response.', 'contextual-link-weaver' ) );
+			return new WP_Error( 'invalid_response', __( 'Could not find generated text in API response.', 'pagelace-internal-links' ) );
 		}
 
 		$parsed = json_decode( $generated_text, true );
 		if ( json_last_error() !== JSON_ERROR_NONE ) {
-			return new WP_Error( 'json_parse_error', __( 'Failed to parse JSON from Gemini response.', 'contextual-link-weaver' ) );
+			return new WP_Error( 'json_parse_error', __( 'Failed to parse JSON from Gemini response.', 'pagelace-internal-links' ) );
 		}
 
 		return $parsed;

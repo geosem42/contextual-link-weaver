@@ -3,18 +3,18 @@ import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
 import { __ } from '@wordpress/i18n';
 import Sidebar from './components/Sidebar';
 
-registerPlugin( 'link-weaver-plugin', {
+registerPlugin( 'pagelace-plugin', {
 	render: () => (
 		<>
 			<PluginSidebarMoreMenuItem
-				target="link-weaver-sidebar"
+				target="pagelace-sidebar"
 				icon="admin-links"
 			>
-				{ __( 'Link Weaver', 'contextual-link-weaver' ) }
+				{ __( 'Pagelace', 'pagelace-internal-links' ) }
 			</PluginSidebarMoreMenuItem>
 			<PluginSidebar
-				name="link-weaver-sidebar"
-				title={ __( 'Link Weaver', 'contextual-link-weaver' ) }
+				name="pagelace-sidebar"
+				title={ __( 'Pagelace', 'pagelace-internal-links' ) }
 				icon="admin-links"
 			>
 				<Sidebar />
