@@ -12,8 +12,19 @@ class Interpost_Rest_API {
 		register_rest_route( 'interpost/v1', '/suggestions', array(
 			'methods'             => 'POST',
 			'callback'            => array( __CLASS__, 'handle_suggestions' ),
-			'permission_callback' => function () {
-				return current_user_can( 'edit_posts' );
+			'permission_callback' => function ( WP_REST_Request $request ) {
+				// Params are not sanitized yet at permission_callback time.
+				$post_id = absint( $request->get_param( 'post_id' ) );
+
+				// An unsaved post has no ID to authorize against, so fall
+				// back to the general capability.
+				if ( 0 === $post_id ) {
+					return current_user_can( 'edit_posts' );
+				}
+
+				// Object-level check: the caller must be able to edit this
+				// specific post, not merely posts in general.
+				return current_user_can( 'edit_post', $post_id );
 			},
 			'args'                => array(
 				'content' => array(
