@@ -247,6 +247,14 @@ add_action( 'wp_ajax_interpost_index_status', array( 'Interpost_Database', 'ajax
 add_action( 'enqueue_block_editor_assets', 'interpost_enqueue_editor_assets' );
 
 function interpost_enqueue_editor_assets() {
+	$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : null;
+
+	// The sidebar has nothing to offer on a post type Interpost does not
+	// index: it would search a corpus that cannot contain this post.
+	if ( $screen && ! in_array( $screen->post_type, Interpost_Database::indexed_post_types(), true ) ) {
+		return;
+	}
+
 	$asset_file_path = INTERPOST_PLUGIN_DIR . 'build/index.asset.php';
 
 	if ( ! file_exists( $asset_file_path ) ) {

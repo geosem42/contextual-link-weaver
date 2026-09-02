@@ -68,6 +68,15 @@ class Interpost_Rest_API {
 			return new WP_REST_Response( array( 'error' => __( 'Content is empty.', 'interpost' ) ), 400 );
 		}
 
+		$post = $post_id > 0 ? get_post( $post_id ) : null;
+
+		if ( $post && ! in_array( $post->post_type, Interpost_Database::indexed_post_types(), true ) ) {
+			return new WP_REST_Response(
+				array( 'error' => __( 'Interpost is not set to work on this type of content.', 'interpost' ) ),
+				400
+			);
+		}
+
 		$suggestions = Interpost_Suggestions::get_suggestions( $content, $post_id );
 
 		if ( is_wp_error( $suggestions ) ) {
