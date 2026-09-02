@@ -4,7 +4,7 @@ Tags: internal links, seo, ai, related posts, block editor
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,9 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 
 == Changelog ==
 
+= 2.2.1 =
+* Fixed: the editor sidebar appeared on content types that are not indexed, where it had no suggestions to offer. It now loads for indexed content types, and the suggestions endpoint declines requests for the rest.
+
 = 2.2.0 =
 * Deleting the plugin now keeps your embedding index and API key. Rebuilding the index costs one Gemini API call for every post, so removing it is opt in: tick the box on the settings page first.
 
@@ -130,6 +133,9 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.2.1 =
+The editor sidebar now appears on the content types that are indexed, instead of every content type.
 
 = 2.2.0 =
 Deleting the plugin no longer removes your embedding index or API key unless you ask it to on the settings page.

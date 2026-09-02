@@ -3,7 +3,7 @@
  * Plugin Name:       Interpost AI Internal Links
  * Plugin URI:        https://logicvoid.dev/plugins/interpost
  * Description:       Uses Gemini AI and semantic embeddings to provide intelligent, context-aware internal linking suggestions.
- * Version:           2.2.0
+ * Version:           2.2.1
  * Requires at least: 6.8
  * Requires PHP:      8.2
  * Author:            George Semaan
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'INTERPOST_VERSION', '2.2.0' );
+define( 'INTERPOST_VERSION', '2.2.1' );
 define( 'INTERPOST_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INTERPOST_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'INTERPOST_PLUGIN_FILE', __FILE__ );
