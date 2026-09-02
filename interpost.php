@@ -3,7 +3,7 @@
  * Plugin Name:       Interpost AI Internal Links
  * Plugin URI:        https://logicvoid.dev/plugins/interpost
  * Description:       Uses Gemini AI and semantic embeddings to provide intelligent, context-aware internal linking suggestions.
- * Version:           2.1.0
+ * Version:           2.1.1
  * Requires at least: 6.8
  * Requires PHP:      8.2
  * Author:            George Semaan
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'INTERPOST_VERSION', '2.1.0' );
+define( 'INTERPOST_VERSION', '2.1.1' );
 define( 'INTERPOST_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INTERPOST_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'INTERPOST_PLUGIN_FILE', __FILE__ );
@@ -171,8 +171,8 @@ function interpost_enqueue_admin_assets( $hook_suffix ) {
 		'i18n'     => array(
 			'starting'     => __( 'Starting...', 'interpost' ),
 			'complete'     => __( 'Indexing complete!', 'interpost' ),
-			/* translators: 1: indexed count, 2: total count, 3: percentage. */
-			'progress'     => __( 'Indexed %1$s of %2$s (%3$s%%)', 'interpost' ),
+			/* translators: 1: indexed count, 2: total count, 3: percentage. The placeholders are replaced in JavaScript, so a literal percent sign is not escaped. */
+			'progress'     => __( 'Indexed %1$s of %2$s (%3$s%)', 'interpost' ),
 			/* translators: %s: number of errors. */
 			'batchErrors'  => __( '%s error(s) in this batch', 'interpost' ),
 			/* translators: %s: number of posts that could not be indexed. */

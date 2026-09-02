@@ -4,7 +4,7 @@ Tags: internal links, seo, ai, related posts, block editor
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,9 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 
 == Changelog ==
 
+= 2.1.1 =
+* Fixed: the bulk indexing progress text showed a doubled percent sign.
+
 = 2.1.0 =
 * Fixed: bulk indexing could repeat the same batch forever when a post could not be indexed. It now skips posts that have already failed, stops when a batch gets nowhere, and reports how many failed.
 * Fixed: deleting a post for good left its embedding behind, so it kept competing for a place in the suggestions.
@@ -120,6 +123,9 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.1.1 =
+Corrects a doubled percent sign in the indexing progress text.
 
 = 2.1.0 =
 Fixes a bulk indexing loop that could keep calling the API without making progress. Recommended for everyone.
