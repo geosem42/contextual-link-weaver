@@ -92,7 +92,7 @@ In a dedicated table in your own WordPress database.
 
 = What happens to my index if I remove the plugin? =
 
-Deactivating changes nothing. Deleting the plugin keeps the index too, because rebuilding it means one API call for every post. If you want it gone, tick *Also remove the embedding index and the API key* on the settings page before you delete.
+Deactivating changes nothing. Deleting the plugin keeps the index too, because rebuilding it means one Gemini API call for every post. If you want it gone, tick *Also remove the embedding index and the API key* on the settings page before you delete.
 
 = Is there a paid version? =
 
@@ -106,7 +106,7 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 == Changelog ==
 
 = 2.2.0 =
-* Deleting the plugin now keeps your embedding index and API key. Rebuilding the index costs an API call for every post, so removing it is opt in: tick the box on the settings page first.
+* Deleting the plugin now keeps your embedding index and API key. Rebuilding the index costs one Gemini API call for every post, so removing it is opt in: tick the box on the settings page first.
 
 = 2.1.1 =
 * Fixed: the bulk indexing progress text showed a doubled percent sign.

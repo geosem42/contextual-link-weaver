@@ -110,7 +110,7 @@ function interpost_settings_init() {
 			);
 
 			echo '<p class="description" style="max-width: 40em;">'
-				. esc_html__( 'Rebuilding the index means one API call for every post, so it costs time and whatever your provider charges. Leave this off if you might reinstall.', 'interpost' )
+				. esc_html__( 'Rebuilding the index means one Gemini API call for every post, so it costs time and API usage. Leave this off if you might reinstall.', 'interpost' )
 				. '</p>';
 		},
 		'interpost',
