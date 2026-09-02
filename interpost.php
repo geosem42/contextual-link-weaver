@@ -83,6 +83,49 @@ function interpost_settings_init() {
 		'interpost',
 		'interpost_api_settings_section'
 	);
+
+	register_setting( 'interpost_settings_group', 'interpost_delete_data', array(
+		'sanitize_callback' => 'interpost_sanitize_checkbox',
+		'type'              => 'boolean',
+		'default'           => 0,
+	) );
+
+	add_settings_section(
+		'interpost_data_settings_section',
+		__( 'Deleting this plugin', 'interpost' ),
+		function () {
+			echo '<p>' . esc_html__( 'Deactivating Interpost changes nothing. This only applies when you delete the plugin from the Plugins screen.', 'interpost' ) . '</p>';
+		},
+		'interpost'
+	);
+
+	add_settings_field(
+		'interpost_delete_data_field',
+		__( 'On deletion', 'interpost' ),
+		function () {
+			printf(
+				'<label><input type="checkbox" name="interpost_delete_data" value="1" %s /> %s</label>',
+				checked( (bool) get_option( 'interpost_delete_data' ), true, false ),
+				esc_html__( 'Also remove the embedding index and the API key', 'interpost' )
+			);
+
+			echo '<p class="description" style="max-width: 40em;">'
+				. esc_html__( 'Rebuilding the index means one API call for every post, so it costs time and whatever your provider charges. Leave this off if you might reinstall.', 'interpost' )
+				. '</p>';
+		},
+		'interpost',
+		'interpost_data_settings_section'
+	);
+}
+
+/**
+ * An unchecked box is not posted at all, so anything present means checked.
+ *
+ * @param mixed $value
+ * @return int
+ */
+function interpost_sanitize_checkbox( $value ) {
+	return empty( $value ) ? 0 : 1;
 }
 
 function interpost_settings_page_html() {
