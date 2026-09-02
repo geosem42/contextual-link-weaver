@@ -1,6 +1,6 @@
 <?php
 /**
- * Uninstall handler — removes all plugin data when the plugin is deleted
+ * Uninstall handler. Removes all plugin data when the plugin is deleted.
  * from the Plugins screen (not on plain deactivation).
  *
  * Removes the interpost_embeddings table and plugin options. Embeddings are

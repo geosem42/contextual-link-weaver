@@ -37,7 +37,7 @@ function findAnchorInText( plainText, anchorText ) {
 		return { startIndex: idx, endIndex: idx + normalizedAnchor.length };
 	}
 
-	// 3. Stripped quotes — the AI may omit quotes that exist in the content.
+	// 3. Stripped quotes. The AI may omit quotes that exist in the content.
 	// Build a mapping from stripped positions back to original positions.
 	const strippedAnchor = stripQuotes( normalizedAnchor );
 	if ( strippedAnchor.length === 0 ) {
@@ -85,12 +85,12 @@ function getBlockHTML( block ) {
 	if ( typeof content === 'string' ) {
 		return content;
 	}
-	// RichText value object — try originalHTML, then fall back to toHTMLString.
+	// RichText value object. Try originalHTML, then fall back to toHTMLString.
 	if ( typeof content === 'object' ) {
 		if ( content.originalHTML ) {
 			return content.originalHTML;
 		}
-		// If it has text/formats, it's a RichTextValue — convert to HTML.
+		// If it has text/formats, it's a RichTextValue, so convert to HTML.
 		if ( typeof content.text === 'string' ) {
 			try {
 				return toHTMLString( { value: content } );

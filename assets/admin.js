@@ -55,7 +55,7 @@
 						.replace( '%3$s', pct );
 
 					if ( data.errors && data.errors.length > 0 ) {
-						statusText.textContent += ' — ' + i18n.batchErrors.replace( '%s', data.errors.length );
+						statusText.textContent += '. ' + i18n.batchErrors.replace( '%s', data.errors.length );
 					}
 
 					if ( data.remaining > 0 ) {

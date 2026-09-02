@@ -12,14 +12,14 @@ AI-powered internal linking: semantic embeddings find your most related posts an
 
 == Description ==
 
-Interpost helps you build a strong internal link structure without leaving the editor. Instead of keyword matching, it understands what your posts are *about* — using semantic embeddings to find genuinely related content, then AI to pick anchor text that already exists naturally in your draft.
+Interpost helps you build a strong internal link structure without leaving the editor. Instead of keyword matching, it understands what your posts are *about*. Semantic embeddings find genuinely related content, then AI picks anchor text that already exists naturally in your draft.
 
 = How it works =
 
-1. **Index your posts** — the plugin generates a semantic embedding for each published post and stores it locally in your database. This happens automatically on publish/update, or in bulk from the settings page.
-2. **Find related posts** — while editing, click *Find Related Posts* in the Interpost sidebar. Your draft is embedded and compared against your indexed posts by cosine similarity. No AI call is needed for this step beyond the single draft embedding.
-3. **Get anchor text suggestions** — only your top 15 most similar posts are sent to the AI along with your draft. It selects natural 4–6 word phrases that exist verbatim in your text and pairs each with the most relevant post.
-4. **Insert links** — one click adds the link at the suggested anchor text location in the editor.
+1. **Index your posts.** The plugin generates a semantic embedding for each published post and stores it locally in your database. This happens automatically on publish/update, or in bulk from the settings page.
+2. **Find related posts.** While editing, click *Find Related Posts* in the Interpost sidebar. Your draft is embedded and compared against your indexed posts by cosine similarity. No AI call is needed for this step beyond the single draft embedding.
+3. **Get anchor text suggestions.** Only your top 15 most similar posts are sent to the AI along with your draft. It selects natural 4 to 6 word phrases that exist verbatim in your text and pairs each with the most relevant post.
+4. **Insert links.** One click adds the link at the suggested anchor text location in the editor.
 
 = Why semantic instead of keyword matching? =
 
@@ -59,7 +59,7 @@ You need a Google Gemini API key, which has a free tier that is sufficient for m
 
 = Is my content sent to external servers? =
 
-Yes — post content is sent to Google's Gemini API for embedding and suggestion generation, as described in the *External services* section. Nothing is sent until you configure an API key, and nothing is sent to any other service.
+Yes. Post content is sent to Google's Gemini API for embedding and suggestion generation, as described in the *External services* section. Nothing is sent until you configure an API key, and nothing is sent to any other service.
 
 = Which post types are supported? =
 
@@ -67,7 +67,7 @@ Published posts (`post` type) are indexed and suggested. Pages and custom post t
 
 = Does it work with the Classic Editor? =
 
-No — the suggestions sidebar is built for the block editor (Gutenberg).
+No. The suggestions sidebar is built for the block editor (Gutenberg).
 
 = Where are embeddings stored? =
 
