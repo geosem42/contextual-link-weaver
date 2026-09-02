@@ -14,7 +14,7 @@ AI-powered internal linking: semantic embeddings find your most related posts an
 
 Interpost helps you build a strong internal link structure without leaving the editor. Instead of keyword matching, it understands what your posts are *about*. Semantic embeddings find genuinely related content, then AI picks anchor text that already exists naturally in your draft.
 
-Interpost is made by Logic Void. The plugin page is at [logicvoid.dev/plugins/interpost](https://logicvoid.dev/plugins/interpost).
+Interpost is made by Logic Void. The plugin page is at [logicvoid.dev/plugins/interpost](https://logicvoid.dev/plugins/interpost?ref=wporg).
 
 = How it works =
 
@@ -26,6 +26,21 @@ Interpost is made by Logic Void. The plugin page is at [logicvoid.dev/plugins/in
 = Why semantic instead of keyword matching? =
 
 Keyword-based internal linking tools suggest links wherever a word happens to appear. Interpost compares the *meaning* of your draft against the meaning of every published post, so a post about "neuroplasticity in adults" can be linked from a draft about "learning new skills after 40" even if they share no keywords.
+
+= Interpost Pro =
+
+The free plugin works on the post you are editing. A Pro version is in development that covers a whole site at once:
+
+* Scan every published post in one run, instead of one draft at a time
+* Custom post types and taxonomies
+* An orphan report, showing what has nothing linking to it
+* Include and exclude rules by category, tag and post type
+* A link inventory, and undo in bulk
+* Scheduled re-scans as your content changes
+* A choice of Gemini model
+* Support by email, and a year of updates
+
+Pro is a second plugin that installs alongside this one, which stays free and stays required. It is not released yet. What is planned is listed at [logicvoid.dev/plugins/interpost](https://logicvoid.dev/plugins/interpost?ref=wporg).
 
 = Requirements =
 
@@ -74,6 +89,10 @@ No. The suggestions sidebar is built for the block editor (Gutenberg).
 = Where are embeddings stored? =
 
 In a dedicated table in your own WordPress database. Deleting the plugin removes the table and all plugin data.
+
+= Is there a paid version? =
+
+Not yet. A Pro version is in development for site-wide scanning, orphan reports and scheduled re-scans. This free plugin stays free, and Pro requires it. See [logicvoid.dev/plugins/interpost](https://logicvoid.dev/plugins/interpost?ref=wporg).
 
 == Screenshots ==
 
