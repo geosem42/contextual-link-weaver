@@ -14,6 +14,8 @@ AI-powered internal linking: semantic embeddings find your most related posts an
 
 Interpost helps you build a strong internal link structure without leaving the editor. Instead of keyword matching, it understands what your posts are *about*. Semantic embeddings find genuinely related content, then AI picks anchor text that already exists naturally in your draft.
 
+Interpost is made by Logic Void. The plugin page is at [logicvoid.dev/plugins/interpost](https://logicvoid.dev/plugins/interpost).
+
 = How it works =
 
 1. **Index your posts.** The plugin generates a semantic embedding for each published post and stores it locally in your database. This happens automatically on publish/update, or in bulk from the settings page.
