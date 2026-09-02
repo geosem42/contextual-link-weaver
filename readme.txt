@@ -4,7 +4,7 @@ Tags: internal links, seo, ai, related posts, block editor
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 2.1.1
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,6 +130,9 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.2.0 =
+Deleting the plugin no longer removes your embedding index or API key unless you ask it to on the settings page.
 
 = 2.1.1 =
 Corrects a doubled percent sign in the indexing progress text.
