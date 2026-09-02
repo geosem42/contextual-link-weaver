@@ -4,7 +4,7 @@ Tags: internal links, seo, ai, related posts, block editor
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,14 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 
 == Changelog ==
 
+= 2.1.0 =
+* Fixed: bulk indexing could repeat the same batch forever when a post could not be indexed. It now skips posts that have already failed, stops when a batch gets nowhere, and reports how many failed.
+* Fixed: deleting a post for good left its embedding behind, so it kept competing for a place in the suggestions.
+* Fixed: the index status counted every stored embedding against published posts alone, which could report more indexed than there were posts.
+* Fixed: posts embedded at a different vector width are now skipped instead of scored, which silently produced meaningless similarity numbers.
+* Added: filters for the indexed post types and statuses, the embedding model and its dimensions, and the shortlist of suggested posts.
+* The API error for a failed embedding request now carries the HTTP status as data, so it can be read without parsing the message.
+
 = 2.0.0 =
 * Semantic embedding index with automatic indexing on publish/update and bulk indexing with progress.
 * Editor sidebar with AI anchor text suggestions and one-click link insertion.
@@ -112,6 +120,9 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.1.0 =
+Fixes a bulk indexing loop that could keep calling the API without making progress. Recommended for everyone.
 
 = 2.0.0 =
 First public release on WordPress.org.

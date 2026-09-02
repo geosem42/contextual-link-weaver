@@ -3,7 +3,7 @@
  * Plugin Name:       Interpost AI Internal Links
  * Plugin URI:        https://logicvoid.dev/plugins/interpost
  * Description:       Uses Gemini AI and semantic embeddings to provide intelligent, context-aware internal linking suggestions.
- * Version:           2.0.0
+ * Version:           2.1.0
  * Requires at least: 6.8
  * Requires PHP:      8.2
  * Author:            George Semaan
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'INTERPOST_VERSION', '2.0.0' );
+define( 'INTERPOST_VERSION', '2.1.0' );
 define( 'INTERPOST_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INTERPOST_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'INTERPOST_PLUGIN_FILE', __FILE__ );
@@ -151,7 +151,9 @@ function interpost_settings_page_html() {
 add_action( 'admin_enqueue_scripts', 'interpost_enqueue_admin_assets' );
 
 function interpost_enqueue_admin_assets( $hook_suffix ) {
-	if ( $hook_suffix !== 'settings_page_interpost' ) {
+	$screens = apply_filters( 'interpost_admin_screens', array( 'settings_page_interpost' ) );
+
+	if ( ! is_array( $screens ) || ! in_array( $hook_suffix, $screens, true ) ) {
 		return;
 	}
 
@@ -173,6 +175,10 @@ function interpost_enqueue_admin_assets( $hook_suffix ) {
 			'progress'     => __( 'Indexed %1$s of %2$s (%3$s%%)', 'interpost' ),
 			/* translators: %s: number of errors. */
 			'batchErrors'  => __( '%s error(s) in this batch', 'interpost' ),
+			/* translators: %s: number of posts that could not be indexed. */
+			'finishedWithErrors' => __( 'Indexing finished. %s post(s) could not be indexed.', 'interpost' ),
+			/* translators: %s: number of posts that could not be indexed. */
+			'stalled'      => __( 'Indexing stopped: nothing in the last batch could be indexed. %s post(s) failed. Check your API key and quota.', 'interpost' ),
 			'error'        => __( 'Error:', 'interpost' ),
 			'networkError' => __( 'Network error:', 'interpost' ),
 			'unknownError' => __( 'Unknown error', 'interpost' ),
@@ -224,6 +230,23 @@ function interpost_enqueue_editor_assets() {
 */
 
 add_action( 'save_post', array( 'Interpost_Embeddings', 'on_save_post' ), 10, 3 );
+
+/*
+|--------------------------------------------------------------------------
+| Clean Up After Deleted Posts
+|--------------------------------------------------------------------------
+|
+| Trashing a post goes through save_post, but deleting one for good does
+| not. Without this the embedding outlives the post and keeps competing
+| for a place in the suggestions.
+|
+*/
+
+add_action( 'deleted_post', 'interpost_on_deleted_post' );
+
+function interpost_on_deleted_post( $post_id ) {
+	Interpost_Database::delete_embedding( (int) $post_id );
+}
 
 /*
 |--------------------------------------------------------------------------

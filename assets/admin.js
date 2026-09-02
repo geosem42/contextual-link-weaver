@@ -14,8 +14,13 @@
 			return;
 		}
 
+		// Posts that could not be embedded this run. They are sent back with
+		// every batch so the server stops handing us the same ones forever.
+		var failed = [];
+
 		btn.addEventListener( 'click', function () {
 			btn.disabled = true;
+			failed = [];
 			progressWrap.style.display = 'block';
 			statusText.textContent = i18n.starting;
 			processBatch();
@@ -25,6 +30,10 @@
 			var formData = new FormData();
 			formData.append( 'action', 'interpost_bulk_index' );
 			formData.append( 'nonce', interpostAdmin.nonce );
+
+			for ( var i = 0; i < failed.length; i++ ) {
+				formData.append( 'failed[]', failed[ i ] );
+			}
 
 			fetch( interpostAdmin.ajax_url, {
 				method: 'POST',
@@ -54,16 +63,32 @@
 						.replace( '%2$s', total )
 						.replace( '%3$s', pct );
 
+					if ( Array.isArray( data.failed ) ) {
+						failed = data.failed;
+					}
+
 					if ( data.errors && data.errors.length > 0 ) {
 						statusText.textContent += '. ' + i18n.batchErrors.replace( '%s', data.errors.length );
 					}
 
-					if ( data.remaining > 0 ) {
-						processBatch();
-					} else {
-						statusText.textContent = i18n.complete;
+					// Nothing left that this run can index.
+					if ( ! data.attempted ) {
+						statusText.textContent = failed.length > 0
+							? i18n.finishedWithErrors.replace( '%s', failed.length )
+							: i18n.complete;
 						btn.disabled = false;
+						return;
 					}
+
+					// The batch tried and got nowhere, so trying again would
+					// just repeat it. Stop and say so.
+					if ( ! data.processed ) {
+						statusText.textContent = i18n.stalled.replace( '%s', failed.length );
+						btn.disabled = false;
+						return;
+					}
+
+					processBatch();
 				} )
 				.catch( function ( err ) {
 					statusText.textContent = i18n.networkError + ' ' + err.message;
