@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Interpost AI Internal Links
- * Plugin URI:        https://github.com/geosem42/interpost
+ * Plugin URI:        https://logicvoid.dev/plugins/interpost
  * Description:       Uses Gemini AI and semantic embeddings to provide intelligent, context-aware internal linking suggestions.
  * Version:           2.0.0
  * Requires at least: 6.8
