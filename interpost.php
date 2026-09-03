@@ -167,7 +167,8 @@ function interpost_settings_tabs() {
  * @return void
  */
 function interpost_scan_tab_html() {
-	$url = 'https://logicvoid.dev/plugins/interpost?ref=wporg-scan-tab';
+	$url   = 'https://logicvoid.dev/plugins/interpost?ref=wporg-scan-tab';
+	$price = '$59';
 
 	$available = array(
 		array(
@@ -247,7 +248,15 @@ function interpost_scan_tab_html() {
 				</div>
 
 				<div class="interpost-pro-hero-buy">
-					<p class="interpost-pro-price">$59 <span><?php esc_html_e( 'per year', 'interpost' ); ?></span></p>
+					<p class="interpost-pro-price">
+						<?php
+						printf(
+							/* translators: %s: the price, already formatted with its currency symbol. */
+							esc_html__( '%s per year', 'interpost' ),
+							'<span class="interpost-pro-amount">' . esc_html( $price ) . '</span>'
+						);
+						?>
+					</p>
 					<p class="interpost-pro-price-note"><?php esc_html_e( 'One site. Larger licences available.', 'interpost' ); ?></p>
 
 					<a href="<?php echo esc_url( $url ); ?>" class="interpost-pro-cta" target="_blank" rel="noopener">
@@ -285,7 +294,8 @@ function interpost_scan_tab_html() {
 				<span class="interpost-pro-where"><?php esc_html_e( 'Example', 'interpost' ); ?></span>
 			</div>
 
-			<div class="interpost-pro-shot" aria-hidden="true">
+			<div class="interpost-pro-shot">
+				<div class="interpost-pro-scroll" aria-hidden="true">
 				<table>
 					<thead>
 						<tr>
@@ -306,12 +316,13 @@ function interpost_scan_tab_html() {
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+				</div>
 
 				<div class="interpost-pro-lock">
 					<span class="dashicons dashicons-lock" aria-hidden="true"></span>
 					<p>
 						<?php esc_html_e( 'Run this report on your own posts with Interpost Pro', 'interpost' ); ?><br />
-						<small><?php esc_html_e( 'Sortable, filterable by post type, and searchable.', 'interpost' ); ?></small>
+						<small><?php esc_html_e( 'Sortable, and filterable by post type.', 'interpost' ); ?></small>
 					</p>
 					<a href="<?php echo esc_url( $url ); ?>" class="interpost-pro-cta interpost-pro-cta-small" target="_blank" rel="noopener">
 						<?php esc_html_e( 'Upgrade to Pro', 'interpost' ); ?>
@@ -327,7 +338,8 @@ function interpost_scan_tab_html() {
 				<span class="interpost-pro-where"><?php esc_html_e( 'Example', 'interpost' ); ?></span>
 			</div>
 
-			<div class="interpost-pro-shot" aria-hidden="true">
+			<div class="interpost-pro-shot">
+				<div class="interpost-pro-scroll" aria-hidden="true">
 				<table>
 					<thead>
 						<tr>
@@ -353,6 +365,7 @@ function interpost_scan_tab_html() {
 						<?php endforeach; ?>
 					</tbody>
 				</table>
+				</div>
 
 				<div class="interpost-pro-lock">
 					<span class="dashicons dashicons-lock" aria-hidden="true"></span>

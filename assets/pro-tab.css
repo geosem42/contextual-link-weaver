@@ -10,7 +10,7 @@
 	--ip-ink: #0b1b2b;
 	--ip-body: #4a5d73;
 	--ip-muted: #5b6b7f;
-	--ip-faint: #6b7f95;
+	--ip-faint: #56697f;
 	--ip-hairline: #eef3f8;
 	--ip-edge: #e6ecf3;
 	--ip-rule: #d6e4ee;
@@ -117,7 +117,7 @@
 	line-height: 1.1;
 }
 
-.interpost-pro-price span {
+.interpost-pro-amount {
 	color: var(--ip-muted);
 	font-size: 13px;
 	font-weight: 500;
@@ -282,6 +282,15 @@
 	position: relative;
 	padding: 16px;
 	overflow: hidden;
+}
+
+/*
+ * The table scrolls in here rather than in .interpost-pro-shot, because the
+ * cover is positioned against the shot: making the shot itself scrollable
+ * would slide the cover off the table it is covering.
+ */
+.interpost-pro-scroll {
+	overflow-x: auto;
 }
 
 .interpost-pro-shot table {
@@ -554,7 +563,7 @@
 		padding: 20px;
 	}
 
-	.interpost-pro-shot {
-		overflow-x: auto;
+	.interpost-pro-shot table {
+		min-width: 420px;
 	}
 }

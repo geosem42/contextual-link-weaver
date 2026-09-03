@@ -29,18 +29,22 @@ Keyword-based internal linking tools suggest links wherever a word happens to ap
 
 = Interpost Pro =
 
-The free plugin works on the post you are editing. A Pro version is in development that covers a whole site at once:
+The free plugin works on the post you are editing. Interpost Pro is a paid add-on that covers a whole site at once. It is available now:
 
-* Scan every published post in one run, instead of one draft at a time
-* Custom post types and taxonomies
-* An orphan report, showing what has nothing linking to it
-* Include and exclude rules by category, tag and post type
-* A link inventory, and undo in bulk
+* An orphan report, showing which published posts have nothing linking to them
+* A link inventory listing every internal link, with its anchor text and where it points
+* Include and exclude rules by post type, category and tag
+* Per-post exceptions, for a post that should be left alone
+* WP-CLI commands for building and reading both reports
+
+These are in development and are not part of the add-on today:
+
+* Scanning every published post in one run, instead of one draft at a time
+* A review queue, where each suggestion is approved by hand
 * Scheduled re-scans as your content changes
 * A choice of Gemini model
-* Support by email, and a year of updates
 
-Pro is a second plugin that installs alongside this one, which stays free and stays required. It is not released yet. What is planned is listed at [logicvoid.dev/plugins/interpost](https://logicvoid.dev/plugins/interpost?ref=wporg).
+Pro is a second plugin that installs alongside this one, which stays free and stays required. Details and pricing are at [logicvoid.dev/plugins/interpost](https://logicvoid.dev/plugins/interpost?ref=wporg).
 
 = Requirements =
 
@@ -96,7 +100,7 @@ Deactivating changes nothing. Deleting the plugin keeps the index too, because r
 
 = Is there a paid version? =
 
-Not yet. A Pro version is in development for site-wide scanning, orphan reports and scheduled re-scans. This free plugin stays free, and Pro requires it. See [logicvoid.dev/plugins/interpost](https://logicvoid.dev/plugins/interpost?ref=wporg).
+Yes. Interpost Pro is a separate paid add-on that reports on the whole site: which published posts have nothing linking to them, and every internal link with its anchor text. This free plugin stays free, and Pro requires it. Site-wide scanning and a review queue are in development and are not part of it yet. See [logicvoid.dev/plugins/interpost](https://logicvoid.dev/plugins/interpost?ref=wporg).
 
 == Screenshots ==
 
