@@ -106,7 +106,7 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 == Changelog ==
 
 = 2.3.0 =
-* Added: a "Scan all posts" tab on the settings screen, explaining what scanning a whole site involves and where that is handled. The tab is not shown when the paid add-on is installed.
+* Added: a "Site-wide linking" tab on the settings screen, describing what the paid add-on covers and which parts of it are still being built. The tab is not shown when the add-on is installed.
 
 = 2.2.1 =
 * Fixed: the editor sidebar appeared on content types that are not indexed, where it had no suggestions to offer. It now loads for indexed content types, and the suggestions endpoint declines requests for the rest.
@@ -138,7 +138,7 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 == Upgrade Notice ==
 
 = 2.3.0 =
-Adds a settings tab describing site-wide scanning. Nothing else changes.
+Adds a settings tab describing the paid add-on. Nothing else changes.
 
 = 2.2.1 =
 The editor sidebar now appears on the content types that are indexed, instead of every content type.

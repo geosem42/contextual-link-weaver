@@ -149,47 +149,90 @@ function interpost_settings_tabs() {
 	$tabs = array( 'settings' => __( 'Settings', 'interpost' ) );
 
 	if ( ! interpost_pro_installed() ) {
-		$tabs['scan'] = __( 'Scan all posts', 'interpost' );
+		$tabs['scan'] = __( 'Site-wide linking', 'interpost' );
 	}
 
 	return $tabs;
 }
 
 /**
- * What a site-wide scan is, on a page of its own.
+ * What the paid add-on does, on a page of its own.
  *
- * This is the one place in the plugin that mentions the paid add-on. It sits
- * behind a tab a person chooses to open, says what the feature does in plain
- * terms, and links out once. Nothing here is a disabled control or a preview
- * of a screen that does not exist.
+ * This is the one place in the plugin that mentions the add-on. It sits behind
+ * a tab a person chooses to open, describes each feature in plain terms, and
+ * links out once. Nothing here is a disabled control or a preview of a screen
+ * that does not exist, and anything still being built says so.
  *
  * @return void
  */
 function interpost_scan_tab_html() {
 	$url = 'https://logicvoid.dev/plugins/interpost?ref=wporg-scan-tab';
+
+	$available = array(
+		array(
+			'title' => __( 'Orphaned posts', 'interpost' ),
+			'body'  => __( 'A report of published posts that nothing else on the site links to. Search engines and readers reach these posts through the archives or not at all, and they are usually the quickest internal linking win on an established site.', 'interpost' ),
+		),
+		array(
+			'title' => __( 'Internal link report', 'interpost' ),
+			'body'  => __( 'Every internal link in your posts, one row for each place a link appears, with the anchor text and where it points. Filter by whether a link resolves to a post, an archive or nothing at all, so broken internal links are visible in one list.', 'interpost' ),
+		),
+		array(
+			'title' => __( 'Rules for what is included', 'interpost' ),
+			'body'  => __( 'Choose which post types are covered, and include or exclude particular categories and tags. The rules are kept as two separate questions: which posts receive links, and which posts may be linked to.', 'interpost' ),
+		),
+		array(
+			'title' => __( 'Per-post exceptions', 'interpost' ),
+			'body'  => __( 'Two checkboxes in the editor for the post in front of you, for a page that should be left alone or held back from suggestions. A setting on the post takes precedence over the rules.', 'interpost' ),
+		),
+		array(
+			'title' => __( 'Command line access', 'interpost' ),
+			'body'  => __( 'Read the link graph and produce both reports with WP-CLI, which is useful on hosts where scheduled tasks are unreliable.', 'interpost' ),
+		),
+	);
+
+	$planned = array(
+		array(
+			'title' => __( 'Scanning every post at once', 'interpost' ),
+			'body'  => __( 'Read the whole site in the background and collect link suggestions for every post, rather than one draft at a time in the editor.', 'interpost' ),
+		),
+		array(
+			'title' => __( 'A review queue', 'interpost' ),
+			'body'  => __( 'Every suggestion waits in a list to be approved or discarded by hand, so no post is changed without someone agreeing to it first.', 'interpost' ),
+		),
+		array(
+			'title' => __( 'Scheduled re-scans', 'interpost' ),
+			'body'  => __( 'Check the site again on a schedule and report where new posts have arrived without links pointing to them.', 'interpost' ),
+		),
+	);
 	?>
-	<h2><?php esc_html_e( 'Scanning every post at once', 'interpost' ); ?></h2>
+	<h2><?php esc_html_e( 'Working across the whole site', 'interpost' ); ?></h2>
 
 	<p style="max-width: 46em;">
-		<?php esc_html_e( 'This plugin suggests links for the post you are editing. It works one post at a time, in the editor, and that is all it does.', 'interpost' ); ?>
+		<?php esc_html_e( 'This plugin suggests links for the post you are editing. It works one post at a time, in the editor, and that is the whole of what it does.', 'interpost' ); ?>
 	</p>
 
 	<p style="max-width: 46em;">
-		<?php esc_html_e( 'Scanning a whole site is a different job. It means reading every published post, working out which ones have no links pointing to them, and proposing links across the site rather than for one draft. On a site with hundreds of posts that is a long running task with a review step, and it is handled by a separate paid add-on called Interpost Pro.', 'interpost' ); ?>
+		<?php esc_html_e( 'Looking at a site as a whole is a different job. It means reading the links already in your posts, working out which posts have none pointing at them, and deciding which content should be covered. That is handled by a separate paid add-on, Interpost Pro, which installs alongside this plugin. This plugin stays free, and the add-on requires it.', 'interpost' ); ?>
 	</p>
 
-	<h3><?php esc_html_e( 'What the add-on does', 'interpost' ); ?></h3>
+	<h3><?php esc_html_e( 'Available in the add-on', 'interpost' ); ?></h3>
 
-	<ul class="ul-disc" style="max-width: 46em;">
-		<li><?php esc_html_e( 'Reads the links already in your posts and reports which published posts have none pointing at them.', 'interpost' ); ?></li>
-		<li><?php esc_html_e( 'Scans the whole site in the background and collects suggestions for review.', 'interpost' ); ?></li>
-		<li><?php esc_html_e( 'Puts every suggestion in a queue, so each one is approved by hand before a post changes.', 'interpost' ); ?></li>
-		<li><?php esc_html_e( 'Limits which post types, categories and tags are included.', 'interpost' ); ?></li>
-	</ul>
+	<?php foreach ( $available as $item ) : ?>
+		<h4 style="margin-bottom: 4px;"><?php echo esc_html( $item['title'] ); ?></h4>
+		<p style="max-width: 46em; margin-top: 0;"><?php echo esc_html( $item['body'] ); ?></p>
+	<?php endforeach; ?>
+
+	<h3><?php esc_html_e( 'Planned, and not available yet', 'interpost' ); ?></h3>
 
 	<p style="max-width: 46em;">
-		<?php esc_html_e( 'This plugin stays free, and the add-on requires it.', 'interpost' ); ?>
+		<?php esc_html_e( 'These are being built and are not part of the add-on today. They are listed so you know where it is going.', 'interpost' ); ?>
 	</p>
+
+	<?php foreach ( $planned as $item ) : ?>
+		<h4 style="margin-bottom: 4px;"><?php echo esc_html( $item['title'] ); ?></h4>
+		<p style="max-width: 46em; margin-top: 0;"><?php echo esc_html( $item['body'] ); ?></p>
+	<?php endforeach; ?>
 
 	<p>
 		<a href="<?php echo esc_url( $url ); ?>" class="button button-secondary" target="_blank" rel="noopener">
