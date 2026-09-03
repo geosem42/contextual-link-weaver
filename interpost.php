@@ -159,10 +159,10 @@ function interpost_settings_tabs() {
  * What the paid add-on does, on a page of its own.
  *
  * This is the one place in the plugin that mentions the add-on. It sits behind
- * a tab a person chooses to open, describes each feature in plain terms, and
- * links out to a single address. Nothing here is a disabled control or a
- * preview of a screen that does not exist, and anything still being built is
- * grouped under its own heading and labelled.
+ * a tab a person chooses to open, shows what the two reports look like, and
+ * links out to a single address. The screens are still pictures built from
+ * markup, not controls that have been switched off, and the features still
+ * being built are grouped under their own heading and labelled.
  *
  * @return void
  */
@@ -214,20 +214,48 @@ function interpost_scan_tab_html() {
 			'body'  => __( 'Check the site again on a schedule and report where new posts have arrived with no links pointing to them.', 'interpost' ),
 		),
 	);
+
+	// Example rows, so the shape of each report is visible. These are made up
+	// on purpose and are not read from this site.
+	$orphan_rows = array(
+		array( __( 'How sleep consolidates memory', 'interpost' ), __( 'Post', 'interpost' ), 3 ),
+		array( __( 'A short history of the compass', 'interpost' ), __( 'Post', 'interpost' ), 1 ),
+		array( __( 'Pricing', 'interpost' ), __( 'Page', 'interpost' ), 0 ),
+	);
+
+	$link_rows = array(
+		array( __( 'Why exercise helps focus', 'interpost' ), __( 'morning routine', 'interpost' ), __( 'Building a morning routine', 'interpost' ), false ),
+		array( __( 'Building a morning routine', 'interpost' ), __( 'our guide to sleep', 'interpost' ), __( 'How sleep consolidates memory', 'interpost' ), false ),
+		array( __( 'A short history of the compass', 'interpost' ), __( 'this old post', 'interpost' ), '/blog/navigation-basics/', true ),
+	);
 	?>
 	<div class="interpost-pro-tab">
 
 		<div class="interpost-pro-hero">
-			<span class="interpost-pro-eyebrow">
-				<span class="dashicons dashicons-admin-site-alt3" aria-hidden="true"></span>
-				<?php esc_html_e( 'Interpost Pro', 'interpost' ); ?>
-			</span>
+			<div class="interpost-pro-hero-inner">
+				<div class="interpost-pro-hero-text">
+					<span class="interpost-pro-eyebrow">
+						<span class="dashicons dashicons-admin-site-alt3" aria-hidden="true"></span>
+						<?php esc_html_e( 'Interpost Pro', 'interpost' ); ?>
+					</span>
 
-			<h2><?php esc_html_e( 'See how the whole site links together', 'interpost' ); ?></h2>
+					<h2><?php esc_html_e( 'See how the whole site links together', 'interpost' ); ?></h2>
 
-			<p>
-				<?php esc_html_e( 'This plugin suggests links for the post you are editing, one draft at a time. Looking at a site as a whole is a different job: reading the links already in your posts, finding the ones nothing points at, and deciding which content should be covered.', 'interpost' ); ?>
-			</p>
+					<p>
+						<?php esc_html_e( 'This plugin suggests links for the post you are editing, one draft at a time. Looking at a site as a whole is a different job: reading the links already in your posts, finding the ones nothing points at, and deciding which content should be covered.', 'interpost' ); ?>
+					</p>
+				</div>
+
+				<div class="interpost-pro-hero-buy">
+					<p class="interpost-pro-price">$59 <span><?php esc_html_e( 'per year', 'interpost' ); ?></span></p>
+					<p class="interpost-pro-price-note"><?php esc_html_e( 'One site. Larger licences available.', 'interpost' ); ?></p>
+
+					<a href="<?php echo esc_url( $url ); ?>" class="interpost-pro-cta" target="_blank" rel="noopener">
+						<span class="dashicons dashicons-unlock" aria-hidden="true"></span>
+						<?php esc_html_e( 'Upgrade to Pro', 'interpost' ); ?>
+					</a>
+				</div>
+			</div>
 
 			<div class="interpost-pro-split">
 				<div class="interpost-pro-side">
@@ -242,13 +270,107 @@ function interpost_scan_tab_html() {
 		</div>
 
 		<div class="interpost-pro-section">
-			<h3><?php esc_html_e( 'Available today', 'interpost' ); ?></h3>
+			<h3><?php esc_html_e( 'The screens you get', 'interpost' ); ?></h3>
 			<span class="interpost-pro-rule" aria-hidden="true"></span>
 		</div>
 
 		<p class="interpost-pro-lede">
-			<?php esc_html_e( 'Included in the add-on as it stands.', 'interpost' ); ?>
+			<?php esc_html_e( 'Both reports are added under a menu of their own. The examples below use made up posts to show the shape of each one.', 'interpost' ); ?>
 		</p>
+
+		<div class="interpost-pro-preview">
+			<div class="interpost-pro-preview-head">
+				<span class="dashicons dashicons-admin-links" aria-hidden="true"></span>
+				<strong><?php esc_html_e( 'Orphaned posts', 'interpost' ); ?></strong>
+				<span class="interpost-pro-where"><?php esc_html_e( 'Example', 'interpost' ); ?></span>
+			</div>
+
+			<div class="interpost-pro-shot" aria-hidden="true">
+				<table>
+					<thead>
+						<tr>
+							<th><?php esc_html_e( 'Post', 'interpost' ); ?></th>
+							<th><?php esc_html_e( 'Type', 'interpost' ); ?></th>
+							<th><?php esc_html_e( 'Incoming', 'interpost' ); ?></th>
+							<th><?php esc_html_e( 'Outgoing', 'interpost' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $orphan_rows as $row ) : ?>
+							<tr>
+								<td><span class="interpost-pro-title"><?php echo esc_html( $row[0] ); ?></span></td>
+								<td><span class="interpost-pro-chip"><?php echo esc_html( $row[1] ); ?></span></td>
+								<td><span class="interpost-pro-zero">0</span></td>
+								<td><span class="interpost-pro-count"><?php echo esc_html( (string) $row[2] ); ?></span></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+
+				<div class="interpost-pro-lock">
+					<span class="dashicons dashicons-lock" aria-hidden="true"></span>
+					<p>
+						<?php esc_html_e( 'Run this report on your own posts with Interpost Pro', 'interpost' ); ?><br />
+						<small><?php esc_html_e( 'Sortable, filterable by post type, and searchable.', 'interpost' ); ?></small>
+					</p>
+					<a href="<?php echo esc_url( $url ); ?>" class="interpost-pro-cta interpost-pro-cta-small" target="_blank" rel="noopener">
+						<?php esc_html_e( 'Upgrade to Pro', 'interpost' ); ?>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="interpost-pro-preview">
+			<div class="interpost-pro-preview-head">
+				<span class="dashicons dashicons-list-view" aria-hidden="true"></span>
+				<strong><?php esc_html_e( 'Internal link report', 'interpost' ); ?></strong>
+				<span class="interpost-pro-where"><?php esc_html_e( 'Example', 'interpost' ); ?></span>
+			</div>
+
+			<div class="interpost-pro-shot" aria-hidden="true">
+				<table>
+					<thead>
+						<tr>
+							<th><?php esc_html_e( 'From', 'interpost' ); ?></th>
+							<th><?php esc_html_e( 'Anchor text', 'interpost' ); ?></th>
+							<th><?php esc_html_e( 'To', 'interpost' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $link_rows as $row ) : ?>
+							<tr>
+								<td><span class="interpost-pro-title"><?php echo esc_html( $row[0] ); ?></span></td>
+								<td><?php echo esc_html( $row[1] ); ?></td>
+								<td>
+									<?php if ( $row[3] ) : ?>
+										<span class="interpost-pro-zero"><?php esc_html_e( 'Broken', 'interpost' ); ?></span>
+										<code><?php echo esc_html( $row[2] ); ?></code>
+									<?php else : ?>
+										<?php echo esc_html( $row[2] ); ?>
+									<?php endif; ?>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+
+				<div class="interpost-pro-lock">
+					<span class="dashicons dashicons-lock" aria-hidden="true"></span>
+					<p>
+						<?php esc_html_e( 'See every internal link on your site with Interpost Pro', 'interpost' ); ?><br />
+						<small><?php esc_html_e( 'Including the ones that point at pages which no longer exist.', 'interpost' ); ?></small>
+					</p>
+					<a href="<?php echo esc_url( $url ); ?>" class="interpost-pro-cta interpost-pro-cta-small" target="_blank" rel="noopener">
+						<?php esc_html_e( 'Upgrade to Pro', 'interpost' ); ?>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="interpost-pro-section">
+			<h3><?php esc_html_e( 'Everything included', 'interpost' ); ?></h3>
+			<span class="interpost-pro-rule" aria-hidden="true"></span>
+		</div>
 
 		<div class="interpost-pro-grid">
 			<?php foreach ( $available as $item ) : ?>
@@ -297,12 +419,12 @@ function interpost_scan_tab_html() {
 		<div class="interpost-pro-close">
 			<div>
 				<h3><?php esc_html_e( 'A separate plugin, installed alongside this one', 'interpost' ); ?></h3>
-				<p><?php esc_html_e( 'This plugin stays free and the add-on requires it, so nothing you have set up here is replaced.', 'interpost' ); ?></p>
+				<p><?php esc_html_e( 'This plugin stays free and the add-on requires it, so nothing you have set up here is replaced. Licences cover one, five or twenty sites.', 'interpost' ); ?></p>
 			</div>
 
 			<a href="<?php echo esc_url( $url ); ?>" class="interpost-pro-cta" target="_blank" rel="noopener">
-				<?php esc_html_e( 'Read about Interpost Pro', 'interpost' ); ?>
-				<span class="dashicons dashicons-external" aria-hidden="true"></span>
+				<span class="dashicons dashicons-unlock" aria-hidden="true"></span>
+				<?php esc_html_e( 'Upgrade to Pro', 'interpost' ); ?>
 			</a>
 		</div>
 
