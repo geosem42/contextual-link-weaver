@@ -3,7 +3,7 @@
  * Plugin Name:       Interpost AI Internal Links
  * Plugin URI:        https://logicvoid.dev/plugins/interpost
  * Description:       Uses Gemini AI and semantic embeddings to provide intelligent, context-aware internal linking suggestions.
- * Version:           2.2.1
+ * Version:           2.3.0
  * Requires at least: 6.8
  * Requires PHP:      8.2
  * Author:            George Semaan
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'INTERPOST_VERSION', '2.2.1' );
+define( 'INTERPOST_VERSION', '2.3.0' );
 define( 'INTERPOST_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INTERPOST_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'INTERPOST_PLUGIN_FILE', __FILE__ );
@@ -128,15 +128,112 @@ function interpost_sanitize_checkbox( $value ) {
 	return empty( $value ) ? 0 : 1;
 }
 
+/**
+ * Whether the paid add-on is installed.
+ *
+ * @return bool
+ */
+function interpost_pro_installed() {
+	return defined( 'INTERPOST_PRO_VERSION' );
+}
+
+/**
+ * The tabs on the settings screen.
+ *
+ * The scanning tab is not shown once the add-on that does the scanning is
+ * installed, because there is nothing left to explain at that point.
+ *
+ * @return array<string, string>
+ */
+function interpost_settings_tabs() {
+	$tabs = array( 'settings' => __( 'Settings', 'interpost' ) );
+
+	if ( ! interpost_pro_installed() ) {
+		$tabs['scan'] = __( 'Scan all posts', 'interpost' );
+	}
+
+	return $tabs;
+}
+
+/**
+ * What a site-wide scan is, on a page of its own.
+ *
+ * This is the one place in the plugin that mentions the paid add-on. It sits
+ * behind a tab a person chooses to open, says what the feature does in plain
+ * terms, and links out once. Nothing here is a disabled control or a preview
+ * of a screen that does not exist.
+ *
+ * @return void
+ */
+function interpost_scan_tab_html() {
+	$url = 'https://logicvoid.dev/plugins/interpost?ref=wporg-scan-tab';
+	?>
+	<h2><?php esc_html_e( 'Scanning every post at once', 'interpost' ); ?></h2>
+
+	<p style="max-width: 46em;">
+		<?php esc_html_e( 'This plugin suggests links for the post you are editing. It works one post at a time, in the editor, and that is all it does.', 'interpost' ); ?>
+	</p>
+
+	<p style="max-width: 46em;">
+		<?php esc_html_e( 'Scanning a whole site is a different job. It means reading every published post, working out which ones have no links pointing to them, and proposing links across the site rather than for one draft. On a site with hundreds of posts that is a long running task with a review step, and it is handled by a separate paid add-on called Interpost Pro.', 'interpost' ); ?>
+	</p>
+
+	<h3><?php esc_html_e( 'What the add-on does', 'interpost' ); ?></h3>
+
+	<ul class="ul-disc" style="max-width: 46em;">
+		<li><?php esc_html_e( 'Reads the links already in your posts and reports which published posts have none pointing at them.', 'interpost' ); ?></li>
+		<li><?php esc_html_e( 'Scans the whole site in the background and collects suggestions for review.', 'interpost' ); ?></li>
+		<li><?php esc_html_e( 'Puts every suggestion in a queue, so each one is approved by hand before a post changes.', 'interpost' ); ?></li>
+		<li><?php esc_html_e( 'Limits which post types, categories and tags are included.', 'interpost' ); ?></li>
+	</ul>
+
+	<p style="max-width: 46em;">
+		<?php esc_html_e( 'This plugin stays free, and the add-on requires it.', 'interpost' ); ?>
+	</p>
+
+	<p>
+		<a href="<?php echo esc_url( $url ); ?>" class="button button-secondary" target="_blank" rel="noopener">
+			<?php esc_html_e( 'Read about Interpost Pro', 'interpost' ); ?>
+		</a>
+	</p>
+	<?php
+}
+
 function interpost_settings_page_html() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
 
+	$tabs = interpost_settings_tabs();
+
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- reading which tab to draw, not acting on it.
+	$current = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : 'settings';
+	$current = isset( $tabs[ $current ] ) ? $current : 'settings';
+
 	$stats = Interpost_Database::get_index_stats();
 	?>
 	<div class="wrap">
 		<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+
+		<?php if ( count( $tabs ) > 1 ) : ?>
+			<nav class="nav-tab-wrapper wp-clearfix" aria-label="<?php esc_attr_e( 'Secondary menu', 'interpost' ); ?>">
+				<?php foreach ( $tabs as $slug => $label ) : ?>
+					<a
+						href="<?php echo esc_url( add_query_arg( array( 'page' => 'interpost', 'tab' => $slug ), admin_url( 'options-general.php' ) ) ); ?>"
+						class="nav-tab <?php echo $current === $slug ? 'nav-tab-active' : ''; ?>"
+					><?php echo esc_html( $label ); ?></a>
+				<?php endforeach; ?>
+			</nav>
+		<?php endif; ?>
+
+		<?php
+		if ( 'scan' === $current ) {
+			interpost_scan_tab_html();
+			echo '</div>';
+
+			return;
+		}
+		?>
 
 		<form action="options.php" method="post">
 			<?php

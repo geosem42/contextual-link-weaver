@@ -4,7 +4,7 @@ Tags: internal links, seo, ai, related posts, block editor
 Requires at least: 6.8
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 2.2.1
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,9 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 
 == Changelog ==
 
+= 2.3.0 =
+* Added: a "Scan all posts" tab on the settings screen, explaining what scanning a whole site involves and where that is handled. The tab is not shown when the paid add-on is installed.
+
 = 2.2.1 =
 * Fixed: the editor sidebar appeared on content types that are not indexed, where it had no suggestions to offer. It now loads for indexed content types, and the suggestions endpoint declines requests for the rest.
 
@@ -133,6 +136,9 @@ Not yet. A Pro version is in development for site-wide scanning, orphan reports 
 * Initial release.
 
 == Upgrade Notice ==
+
+= 2.3.0 =
+Adds a settings tab describing site-wide scanning. Nothing else changes.
 
 = 2.2.1 =
 The editor sidebar now appears on the content types that are indexed, instead of every content type.
