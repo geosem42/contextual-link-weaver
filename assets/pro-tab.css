@@ -1,0 +1,399 @@
+/**
+ * The site-wide linking tab.
+ *
+ * Scoped under one wrapper class so nothing here reaches the rest of wp-admin.
+ * Everything is a plain layout: no images, no web fonts, no external requests.
+ */
+
+.interpost-pro-tab {
+	--ip-ink: #101828;
+	--ip-body: #475467;
+	--ip-muted: #667085;
+	--ip-line: #e4e7ec;
+	--ip-hairline: #f2f4f7;
+	--ip-surface: #ffffff;
+	--ip-sunken: #f9fafb;
+	--ip-accent: #4338ca;
+	--ip-accent-soft: #eef2ff;
+	--ip-accent-line: #c7d2fe;
+	--ip-live: #067647;
+	--ip-live-soft: #ecfdf3;
+	--ip-live-line: #abefc6;
+	--ip-soon: #b54708;
+	--ip-soon-soft: #fffaeb;
+	--ip-soon-line: #fedf89;
+
+	max-width: 1080px;
+	margin: 20px 0 40px;
+	color: var(--ip-body);
+	font-size: 14px;
+	line-height: 1.6;
+}
+
+@media ( prefers-color-scheme: dark ) {
+	.interpost-pro-tab {
+		--ip-ink: #f5f6f8;
+		--ip-body: #c3c8d2;
+		--ip-muted: #98a0ae;
+		--ip-line: #333a47;
+		--ip-hairline: #262c37;
+		--ip-surface: #1c212b;
+		--ip-sunken: #171b23;
+		--ip-accent: #a5b4fc;
+		--ip-accent-soft: #221f3d;
+		--ip-accent-line: #3b3a6b;
+		--ip-live: #6ee7b7;
+		--ip-live-soft: #10261d;
+		--ip-live-line: #1f4a38;
+		--ip-soon: #fcd34d;
+		--ip-soon-soft: #2a1f0c;
+		--ip-soon-line: #5a441a;
+	}
+}
+
+/* Header
+   ------------------------------------------------------------------------ */
+
+.interpost-pro-hero {
+	position: relative;
+	overflow: hidden;
+	padding: 34px 36px;
+	border: 1px solid var(--ip-line);
+	border-radius: 14px;
+	background:
+		radial-gradient( 900px 260px at 12% -40%, var(--ip-accent-soft), transparent 70% ),
+		var(--ip-surface);
+}
+
+.interpost-pro-hero::after {
+	content: "";
+	position: absolute;
+	inset: 0 0 auto 0;
+	height: 3px;
+	background: linear-gradient( 90deg, var(--ip-accent), var(--ip-accent-line) 55%, transparent );
+}
+
+.interpost-pro-eyebrow {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	margin-bottom: 14px;
+	padding: 4px 11px 4px 8px;
+	border: 1px solid var(--ip-accent-line);
+	border-radius: 999px;
+	background: var(--ip-accent-soft);
+	color: var(--ip-accent);
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.interpost-pro-eyebrow .dashicons {
+	width: 14px;
+	height: 14px;
+	font-size: 14px;
+}
+
+.interpost-pro-hero h2 {
+	margin: 0 0 10px;
+	padding: 0;
+	color: var(--ip-ink);
+	font-size: 27px;
+	font-weight: 650;
+	line-height: 1.25;
+	letter-spacing: -0.015em;
+	text-wrap: balance;
+}
+
+.interpost-pro-hero p {
+	max-width: 62ch;
+	margin: 0 0 12px;
+	font-size: 14.5px;
+}
+
+.interpost-pro-hero p:last-of-type {
+	margin-bottom: 0;
+}
+
+/* Contrast strip: what this plugin does, and what the add-on adds.
+   ------------------------------------------------------------------------ */
+
+.interpost-pro-split {
+	display: grid;
+	grid-template-columns: repeat( auto-fit, minmax( 260px, 1fr ) );
+	gap: 14px;
+	margin: 22px 0 0;
+}
+
+.interpost-pro-side {
+	padding: 18px 20px;
+	border: 1px solid var(--ip-line);
+	border-radius: 11px;
+	background: var(--ip-sunken);
+}
+
+.interpost-pro-side.is-pro {
+	border-color: var(--ip-accent-line);
+	background: var(--ip-accent-soft);
+}
+
+.interpost-pro-side h3 {
+	margin: 0 0 6px;
+	color: var(--ip-ink);
+	font-size: 12px;
+	font-weight: 650;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+}
+
+.interpost-pro-side p {
+	margin: 0;
+	font-size: 13.5px;
+}
+
+/* Section headings
+   ------------------------------------------------------------------------ */
+
+.interpost-pro-section {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	margin: 40px 0 4px;
+}
+
+.interpost-pro-section h3 {
+	margin: 0;
+	padding: 0;
+	color: var(--ip-ink);
+	font-size: 17px;
+	font-weight: 650;
+	letter-spacing: -0.01em;
+}
+
+.interpost-pro-section .interpost-pro-rule {
+	flex: 1;
+	height: 1px;
+	background: var(--ip-line);
+}
+
+.interpost-pro-lede {
+	max-width: 62ch;
+	margin: 0 0 18px;
+	color: var(--ip-muted);
+	font-size: 13.5px;
+}
+
+/* Feature cards
+   ------------------------------------------------------------------------ */
+
+.interpost-pro-grid {
+	display: grid;
+	grid-template-columns: repeat( auto-fill, minmax( 290px, 1fr ) );
+	gap: 14px;
+	margin: 0;
+}
+
+.interpost-pro-card {
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	border: 1px solid var(--ip-line);
+	border-radius: 12px;
+	background: var(--ip-surface);
+	transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.interpost-pro-card:hover {
+	border-color: var(--ip-accent-line);
+	box-shadow: 0 6px 20px -12px rgba( 16, 24, 40, 0.28 );
+	transform: translateY( -1px );
+}
+
+@media ( prefers-reduced-motion: reduce ) {
+	.interpost-pro-card {
+		transition: none;
+	}
+
+	.interpost-pro-card:hover {
+		transform: none;
+	}
+}
+
+.interpost-pro-card-top {
+	display: flex;
+	align-items: center;
+	gap: 11px;
+	margin-bottom: 12px;
+}
+
+.interpost-pro-icon {
+	display: grid;
+	flex: 0 0 auto;
+	place-items: center;
+	width: 34px;
+	height: 34px;
+	border: 1px solid var(--ip-accent-line);
+	border-radius: 9px;
+	background: var(--ip-accent-soft);
+	color: var(--ip-accent);
+}
+
+.interpost-pro-icon .dashicons {
+	width: 18px;
+	height: 18px;
+	font-size: 18px;
+}
+
+.interpost-pro-card h4 {
+	margin: 0;
+	padding: 0;
+	color: var(--ip-ink);
+	font-size: 14.5px;
+	font-weight: 640;
+	line-height: 1.35;
+}
+
+.interpost-pro-card p {
+	margin: 0;
+	font-size: 13.5px;
+}
+
+/* The planned half reads as quieter, without being greyed out. */
+
+.interpost-pro-card.is-planned {
+	background: var(--ip-sunken);
+}
+
+.interpost-pro-card.is-planned .interpost-pro-icon {
+	border-color: var(--ip-soon-line);
+	background: var(--ip-soon-soft);
+	color: var(--ip-soon);
+}
+
+/* Status badges
+   ------------------------------------------------------------------------ */
+
+.interpost-pro-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	margin-left: auto;
+	padding: 2px 9px;
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	white-space: nowrap;
+}
+
+.interpost-pro-badge.is-live {
+	border: 1px solid var(--ip-live-line);
+	background: var(--ip-live-soft);
+	color: var(--ip-live);
+}
+
+.interpost-pro-badge.is-soon {
+	border: 1px solid var(--ip-soon-line);
+	background: var(--ip-soon-soft);
+	color: var(--ip-soon);
+}
+
+.interpost-pro-badge .dashicons {
+	width: 12px;
+	height: 12px;
+	font-size: 12px;
+}
+
+/* Closing panel
+   ------------------------------------------------------------------------ */
+
+.interpost-pro-close {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 18px;
+	margin-top: 34px;
+	padding: 24px 26px;
+	border: 1px solid var(--ip-line);
+	border-radius: 13px;
+	background:
+		radial-gradient( 700px 200px at 88% 140%, var(--ip-accent-soft), transparent 70% ),
+		var(--ip-surface);
+}
+
+.interpost-pro-close h3 {
+	margin: 0 0 4px;
+	padding: 0;
+	color: var(--ip-ink);
+	font-size: 16px;
+	font-weight: 650;
+}
+
+.interpost-pro-close p {
+	max-width: 54ch;
+	margin: 0;
+	font-size: 13.5px;
+}
+
+.interpost-pro-cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding: 10px 20px;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	background: var(--ip-accent);
+	color: #fff;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 1.2;
+	text-decoration: none;
+	transition: opacity 0.15s ease;
+}
+
+.interpost-pro-cta:hover,
+.interpost-pro-cta:focus {
+	color: #fff;
+	opacity: 0.9;
+}
+
+.interpost-pro-cta:focus-visible {
+	outline: 2px solid var(--ip-accent);
+	outline-offset: 2px;
+}
+
+@media ( prefers-color-scheme: dark ) {
+	.interpost-pro-cta,
+	.interpost-pro-cta:hover,
+	.interpost-pro-cta:focus {
+		color: #12131a;
+	}
+}
+
+.interpost-pro-cta .dashicons {
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+}
+
+.interpost-pro-note {
+	margin: 14px 0 0;
+	color: var(--ip-muted);
+	font-size: 12.5px;
+}
+
+@media screen and ( max-width: 782px ) {
+	.interpost-pro-hero {
+		padding: 24px 20px;
+	}
+
+	.interpost-pro-hero h2 {
+		font-size: 22px;
+	}
+
+	.interpost-pro-close {
+		padding: 20px;
+	}
+}

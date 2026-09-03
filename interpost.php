@@ -160,8 +160,9 @@ function interpost_settings_tabs() {
  *
  * This is the one place in the plugin that mentions the add-on. It sits behind
  * a tab a person chooses to open, describes each feature in plain terms, and
- * links out once. Nothing here is a disabled control or a preview of a screen
- * that does not exist, and anything still being built says so.
+ * links out to a single address. Nothing here is a disabled control or a
+ * preview of a screen that does not exist, and anything still being built is
+ * grouped under its own heading and labelled.
  *
  * @return void
  */
@@ -170,75 +171,145 @@ function interpost_scan_tab_html() {
 
 	$available = array(
 		array(
+			'icon'  => 'admin-links',
 			'title' => __( 'Orphaned posts', 'interpost' ),
-			'body'  => __( 'A report of published posts that nothing else on the site links to. Search engines and readers reach these posts through the archives or not at all, and they are usually the quickest internal linking win on an established site.', 'interpost' ),
+			'body'  => __( 'A report of published posts that nothing else on the site links to. Readers reach them through the archives or not at all, and they are usually the quickest internal linking win on an established site.', 'interpost' ),
 		),
 		array(
+			'icon'  => 'list-view',
 			'title' => __( 'Internal link report', 'interpost' ),
-			'body'  => __( 'Every internal link in your posts, one row for each place a link appears, with the anchor text and where it points. Filter by whether a link resolves to a post, an archive or nothing at all, so broken internal links are visible in one list.', 'interpost' ),
+			'body'  => __( 'Every internal link in your posts, one row for each place a link appears, with its anchor text and where it points. Broken internal links are visible in a single list.', 'interpost' ),
 		),
 		array(
+			'icon'  => 'filter',
 			'title' => __( 'Rules for what is included', 'interpost' ),
-			'body'  => __( 'Choose which post types are covered, and include or exclude particular categories and tags. The rules are kept as two separate questions: which posts receive links, and which posts may be linked to.', 'interpost' ),
+			'body'  => __( 'Choose which post types are covered, and include or exclude particular categories and tags. Which posts receive links and which may be linked to are kept as two separate questions.', 'interpost' ),
 		),
 		array(
+			'icon'  => 'edit',
 			'title' => __( 'Per-post exceptions', 'interpost' ),
-			'body'  => __( 'Two checkboxes in the editor for the post in front of you, for a page that should be left alone or held back from suggestions. A setting on the post takes precedence over the rules.', 'interpost' ),
+			'body'  => __( 'Two checkboxes in the editor, for a post that should be left alone or held back from suggestions. A setting on the post takes precedence over the rules.', 'interpost' ),
 		),
 		array(
+			'icon'  => 'editor-code',
 			'title' => __( 'Command line access', 'interpost' ),
-			'body'  => __( 'Read the link graph and produce both reports with WP-CLI, which is useful on hosts where scheduled tasks are unreliable.', 'interpost' ),
+			'body'  => __( 'Build the link report and read both reports with WP-CLI, which helps on hosts where scheduled tasks are unreliable.', 'interpost' ),
 		),
 	);
 
 	$planned = array(
 		array(
+			'icon'  => 'search',
 			'title' => __( 'Scanning every post at once', 'interpost' ),
 			'body'  => __( 'Read the whole site in the background and collect link suggestions for every post, rather than one draft at a time in the editor.', 'interpost' ),
 		),
 		array(
+			'icon'  => 'yes-alt',
 			'title' => __( 'A review queue', 'interpost' ),
-			'body'  => __( 'Every suggestion waits in a list to be approved or discarded by hand, so no post is changed without someone agreeing to it first.', 'interpost' ),
+			'body'  => __( 'Every suggestion waits in a list to be approved or discarded by hand, so a post changes once someone has agreed to it.', 'interpost' ),
 		),
 		array(
+			'icon'  => 'clock',
 			'title' => __( 'Scheduled re-scans', 'interpost' ),
-			'body'  => __( 'Check the site again on a schedule and report where new posts have arrived without links pointing to them.', 'interpost' ),
+			'body'  => __( 'Check the site again on a schedule and report where new posts have arrived with no links pointing to them.', 'interpost' ),
 		),
 	);
 	?>
-	<h2><?php esc_html_e( 'Working across the whole site', 'interpost' ); ?></h2>
+	<div class="interpost-pro-tab">
 
-	<p style="max-width: 46em;">
-		<?php esc_html_e( 'This plugin suggests links for the post you are editing. It works one post at a time, in the editor, and that is the whole of what it does.', 'interpost' ); ?>
-	</p>
+		<div class="interpost-pro-hero">
+			<span class="interpost-pro-eyebrow">
+				<span class="dashicons dashicons-admin-site-alt3" aria-hidden="true"></span>
+				<?php esc_html_e( 'Interpost Pro', 'interpost' ); ?>
+			</span>
 
-	<p style="max-width: 46em;">
-		<?php esc_html_e( 'Looking at a site as a whole is a different job. It means reading the links already in your posts, working out which posts have none pointing at them, and deciding which content should be covered. That is handled by a separate paid add-on, Interpost Pro, which installs alongside this plugin. This plugin stays free, and the add-on requires it.', 'interpost' ); ?>
-	</p>
+			<h2><?php esc_html_e( 'See how the whole site links together', 'interpost' ); ?></h2>
 
-	<h3><?php esc_html_e( 'Available in the add-on', 'interpost' ); ?></h3>
+			<p>
+				<?php esc_html_e( 'This plugin suggests links for the post you are editing, one draft at a time. Looking at a site as a whole is a different job: reading the links already in your posts, finding the ones nothing points at, and deciding which content should be covered.', 'interpost' ); ?>
+			</p>
 
-	<?php foreach ( $available as $item ) : ?>
-		<h4 style="margin-bottom: 4px;"><?php echo esc_html( $item['title'] ); ?></h4>
-		<p style="max-width: 46em; margin-top: 0;"><?php echo esc_html( $item['body'] ); ?></p>
-	<?php endforeach; ?>
+			<div class="interpost-pro-split">
+				<div class="interpost-pro-side">
+					<h3><?php esc_html_e( 'This plugin', 'interpost' ); ?></h3>
+					<p><?php esc_html_e( 'Suggestions in the editor for the post in front of you, with the anchor text taken from what you have written.', 'interpost' ); ?></p>
+				</div>
+				<div class="interpost-pro-side is-pro">
+					<h3><?php esc_html_e( 'With the add-on', 'interpost' ); ?></h3>
+					<p><?php esc_html_e( 'Reports across every published post, rules for what is covered, and a record of each link on the site.', 'interpost' ); ?></p>
+				</div>
+			</div>
+		</div>
 
-	<h3><?php esc_html_e( 'Planned, and not available yet', 'interpost' ); ?></h3>
+		<div class="interpost-pro-section">
+			<h3><?php esc_html_e( 'Available today', 'interpost' ); ?></h3>
+			<span class="interpost-pro-rule" aria-hidden="true"></span>
+		</div>
 
-	<p style="max-width: 46em;">
-		<?php esc_html_e( 'These are being built and are not part of the add-on today. They are listed so you know where it is going.', 'interpost' ); ?>
-	</p>
+		<p class="interpost-pro-lede">
+			<?php esc_html_e( 'Included in the add-on as it stands.', 'interpost' ); ?>
+		</p>
 
-	<?php foreach ( $planned as $item ) : ?>
-		<h4 style="margin-bottom: 4px;"><?php echo esc_html( $item['title'] ); ?></h4>
-		<p style="max-width: 46em; margin-top: 0;"><?php echo esc_html( $item['body'] ); ?></p>
-	<?php endforeach; ?>
+		<div class="interpost-pro-grid">
+			<?php foreach ( $available as $item ) : ?>
+				<div class="interpost-pro-card">
+					<div class="interpost-pro-card-top">
+						<span class="interpost-pro-icon">
+							<span class="dashicons dashicons-<?php echo esc_attr( $item['icon'] ); ?>" aria-hidden="true"></span>
+						</span>
+						<h4><?php echo esc_html( $item['title'] ); ?></h4>
+						<span class="interpost-pro-badge is-live">
+							<span class="dashicons dashicons-yes" aria-hidden="true"></span>
+							<?php esc_html_e( 'Included', 'interpost' ); ?>
+						</span>
+					</div>
+					<p><?php echo esc_html( $item['body'] ); ?></p>
+				</div>
+			<?php endforeach; ?>
+		</div>
 
-	<p>
-		<a href="<?php echo esc_url( $url ); ?>" class="button button-secondary" target="_blank" rel="noopener">
-			<?php esc_html_e( 'Read about Interpost Pro', 'interpost' ); ?>
-		</a>
-	</p>
+		<div class="interpost-pro-section">
+			<h3><?php esc_html_e( 'Being built', 'interpost' ); ?></h3>
+			<span class="interpost-pro-rule" aria-hidden="true"></span>
+		</div>
+
+		<p class="interpost-pro-lede">
+			<?php esc_html_e( 'These are in development and are not part of the add-on today. They are listed so you can see where it is going.', 'interpost' ); ?>
+		</p>
+
+		<div class="interpost-pro-grid">
+			<?php foreach ( $planned as $item ) : ?>
+				<div class="interpost-pro-card is-planned">
+					<div class="interpost-pro-card-top">
+						<span class="interpost-pro-icon">
+							<span class="dashicons dashicons-<?php echo esc_attr( $item['icon'] ); ?>" aria-hidden="true"></span>
+						</span>
+						<h4><?php echo esc_html( $item['title'] ); ?></h4>
+						<span class="interpost-pro-badge is-soon">
+							<?php esc_html_e( 'In development', 'interpost' ); ?>
+						</span>
+					</div>
+					<p><?php echo esc_html( $item['body'] ); ?></p>
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+		<div class="interpost-pro-close">
+			<div>
+				<h3><?php esc_html_e( 'A separate plugin, installed alongside this one', 'interpost' ); ?></h3>
+				<p><?php esc_html_e( 'This plugin stays free and the add-on requires it, so nothing you have set up here is replaced.', 'interpost' ); ?></p>
+			</div>
+
+			<a href="<?php echo esc_url( $url ); ?>" class="interpost-pro-cta" target="_blank" rel="noopener">
+				<?php esc_html_e( 'Read about Interpost Pro', 'interpost' ); ?>
+				<span class="dashicons dashicons-external" aria-hidden="true"></span>
+			</a>
+		</div>
+
+		<p class="interpost-pro-note">
+			<?php esc_html_e( 'This tab is hidden once the add-on is installed.', 'interpost' ); ?>
+		</p>
+	</div>
 	<?php
 }
 
@@ -337,6 +408,24 @@ function interpost_enqueue_admin_assets( $hook_suffix ) {
 	$screens = apply_filters( 'interpost_admin_screens', array( 'settings_page_interpost' ) );
 
 	if ( ! is_array( $screens ) || ! in_array( $hook_suffix, $screens, true ) ) {
+		return;
+	}
+
+	/*
+	 * The add-on tab carries its own layout, and the indexing script has
+	 * nothing to do there. Load one or the other rather than both on both.
+	 */
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- reading which tab is open, not acting on it.
+	$tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : 'settings';
+
+	if ( 'scan' === $tab && ! interpost_pro_installed() ) {
+		wp_enqueue_style(
+			'interpost-pro-tab',
+			INTERPOST_PLUGIN_URL . 'assets/pro-tab.css',
+			array( 'dashicons' ),
+			INTERPOST_VERSION
+		);
+
 		return;
 	}
 
