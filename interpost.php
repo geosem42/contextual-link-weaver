@@ -3,7 +3,7 @@
  * Plugin Name:       Interpost AI Internal Links
  * Plugin URI:        https://logicvoid.dev/plugins/interpost
  * Description:       Uses Gemini AI and semantic embeddings to provide intelligent, context-aware internal linking suggestions.
- * Version:           2.3.0
+ * Version:           2.2.1
  * Requires at least: 6.8
  * Requires PHP:      8.2
  * Author:            George Semaan
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'INTERPOST_VERSION', '2.3.0' );
+define( 'INTERPOST_VERSION', '2.2.1' );
 define( 'INTERPOST_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'INTERPOST_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'INTERPOST_PLUGIN_FILE', __FILE__ );
@@ -148,11 +148,32 @@ function interpost_pro_installed() {
 function interpost_settings_tabs() {
 	$tabs = array( 'settings' => __( 'Settings', 'interpost' ) );
 
-	if ( ! interpost_pro_installed() ) {
+	if ( interpost_show_pro_tab() ) {
 		$tabs['scan'] = __( 'Site-wide linking', 'interpost' );
 	}
 
 	return $tabs;
+}
+
+/**
+ * Whether to show the tab describing the paid add-on.
+ *
+ * Off until the add-on can actually be bought. The tab quotes a price and
+ * offers to take the upgrade, and pointing someone at a checkout that cannot
+ * take payment is worse than saying nothing. Turn it on with
+ * add_filter( 'interpost_show_pro_tab', '__return_true' ) to see it, and
+ * change the default here when the checkout is live.
+ *
+ * There is nothing to describe once the add-on is installed either.
+ *
+ * @return bool
+ */
+function interpost_show_pro_tab() {
+	if ( interpost_pro_installed() ) {
+		return false;
+	}
+
+	return (bool) apply_filters( 'interpost_show_pro_tab', false );
 }
 
 /**
@@ -553,7 +574,7 @@ function interpost_enqueue_admin_assets( $hook_suffix ) {
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- reading which tab is open, not acting on it.
 	$tab = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : 'settings';
 
-	if ( 'scan' === $tab && ! interpost_pro_installed() ) {
+	if ( 'scan' === $tab && interpost_show_pro_tab() ) {
 		wp_enqueue_style(
 			'interpost-pro-tab',
 			INTERPOST_PLUGIN_URL . 'assets/pro-tab.css',
